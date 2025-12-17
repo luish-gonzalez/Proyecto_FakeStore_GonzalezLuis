@@ -1,0 +1,21 @@
+<header class="header">
+  <h1>FakeStore</h1>
+</header>
+
+<main class="layout">
+  <section class="controls">
+    <input id="search" type="text" placeholder="Buscar producto..." /> <!--controles para eventos-->
+    <select id="category"></select> <!--controles para eventos-->
+    <select id="sort"></select> <!--controles para eventos-->
+  </section>
+
+  <section id="products" class="products"></section> <!-- aquí JS renderiza tarjetas (DOM dinámico) -->
+
+  <aside class="cart">
+    <h2>Carrito</h2>
+    <div id="cartItems"></div> <!--render del carrito y total-->
+    <p>Total: <span id="cartTotal">$0</span></p> <!--render del carrito y total-->
+  </aside>
+</main>
+
+<script src="scripts/app.js"></script>

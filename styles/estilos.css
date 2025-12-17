@@ -1,0 +1,6 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: sans-serif; }
+
+.layout { display: grid; gap: 1rem; padding: 1rem; } /* main -> layout */
+.products { display: grid; gap: 1rem; } /* section -> products */
+.cart { border: 1px solid #ccc; padding: 1rem; } /* aside -> cart */
