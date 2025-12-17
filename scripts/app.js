@@ -6,12 +6,22 @@ const sortEl = document.querySelector("#sort"); // accede a los contenedores del
 
 let products = []; // guarda los productos en memoria obtenidos de la API para luego filtrar/ordenar.
 
+// Crear el “estado” de filtros/orden
+const state = {
+  search: "",
+  category: "all",
+  sort: "default",
+};
+
 // Referencias del carrito y estado
 const cartItemsEl = document.querySelector("#cartItems"); // accede a los contenedores del DOM: section -> cartItems
 const cartTotalEl = document.querySelector("#cartTotal"); // accede a los contenedores del DOM: span -> cartTotal
 const clearCartEl = document.querySelector("#clearCart"); // accede a los contenedores del DOM: button -> clearCart
 
 let cart = []; // guarda los productos agregados al carrito
+
+// referencias del input de búsqueda
+const searchEl = document.querySelector("#search");
 
 // Cargar carrito desde localStorage al iniciar
 function loadCart() {
@@ -169,18 +179,96 @@ async function fetchProducts() {
     if (!res.ok) throw new Error("Respuesta no válida de la API"); // !res.ok manejo de errores en la respuesta de la API
 
     products = await res.json(); // guarda los productos en memoria para futuros filtros/ordenamientos
-    renderProducts(products);
+    applyFilters();
   } catch (err) {
     renderStatus("No se pudieron cargar los productos.");
     console.error(err);
   }
 }
 
+// Llenar el select de categorías desde la API
+async function fetchCategories() {
+  try {
+    const res = await fetch(`${API_URL}/products/categories`);
+    if (!res.ok) throw new Error("No se pudieron cargar categorías");
+    const categories = await res.json();
+    renderCategories(categories);
+  } catch (err) {
+    console.error(err);
+    renderCategories([]); // al menos deja "Todas"
+  }
+}
+
+function renderCategories(categories) {
+  categoryEl.innerHTML = `
+    <option value="all">Todas</option>
+    ${categories.map((c) => `<option value="${c}">${c}</option>`).join("")}
+  `;
+}
+
+// Llenar el select de ordenamientos (sin API)
+function renderSortOptions() {
+  sortEl.innerHTML = `
+    <option value="default">Orden por defecto</option>
+    <option value="price-asc">Precio: menor a mayor</option>
+    <option value="price-desc">Precio: mayor a menor</option>
+    <option value="title-asc">Título: A → Z</option>
+    <option value="title-desc">Título: Z → A</option>
+  `;
+}
+
+// Función central: aplicar filtros + orden y renderizar
+
+function applyFilters() {
+  let list = [...products];
+
+  // 1) filtro por categoría
+  if (state.category !== "all") {
+    list = list.filter((p) => p.category === state.category);
+  }
+
+  // 2) búsqueda por título (case-insensitive)
+  if (state.search.trim() !== "") {
+    const q = state.search.trim().toLowerCase();
+    list = list.filter((p) => p.title.toLowerCase().includes(q));
+  }
+
+  // 3) ordenamiento
+  if (state.sort === "price-asc") list.sort((a, b) => a.price - b.price);
+  if (state.sort === "price-desc") list.sort((a, b) => b.price - a.price);
+  if (state.sort === "title-asc")
+    list.sort((a, b) => a.title.localeCompare(b.title));
+  if (state.sort === "title-desc")
+    list.sort((a, b) => b.title.localeCompare(a.title));
+
+  renderProducts(list);
+}
+
 // evento para cargar productos al iniciar la página, asegura que el DOM exista antes de manipularlo
 document.addEventListener("DOMContentLoaded", () => {
   loadCart();
   renderCart();
+
+  renderSortOptions();
+  fetchCategories();
+
   fetchProducts();
+});
+
+// Eventos en controles (search/category/sort)
+searchEl.addEventListener("input", (e) => {
+  state.search = e.target.value;
+  applyFilters();
+});
+
+categoryEl.addEventListener("change", (e) => {
+  state.category = e.target.value;
+  applyFilters();
+});
+
+sortEl.addEventListener("change", (e) => {
+  state.sort = e.target.value;
+  applyFilters();
 });
 
 
