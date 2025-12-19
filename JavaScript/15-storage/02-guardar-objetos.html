@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <style id="estilos"></style>
+    </head>
+    <body>
+        <h1>Guardar objetos con LocalStorage</h1>
+        <hr />
+
+        <button>Guardar Informacion</button>
+        <button>Recuperar Informacion</button>
+        <button>Recorrer Informacion</button>
+        <button>Cambiar el tema</button>
+        <script>
+            const camper = {
+                nombre: "Pedro Pablo",
+                edad: 18,
+                genero: "masculino",
+                profesion: "estudiante",
+                modulos: [],
+            };
+
+            camper.modulos.push({
+                nombre: "introducción a la programación",
+                score: 75,
+            });
+            camper.modulos.push({
+                nombre: "Consola Linux",
+                score: 90,
+            });
+            camper.modulos.push({
+                nombre: "Python",
+                score: 50,
+            });
+
+            const vCampers = [camper, camper, camper];
+
+            // abtener el tema actual guardado en el localStorage
+            const temaActual = localStorage.getItem("tema") || "claro";
+            // cargar el estilo de acuerdo al tema actual
+            const estilos =
+                temaActual === "oscuro"
+                    ? "body { background: #121212; color: #fff;}"
+                    : "body { background: #fff; color: #000;}";
+            // aplicar a la página el estilo actual
+            document.getElementById("estilos").textContent = estilos;
+
+            const btnGuardar = document.getElementsByTagName("button")[0];
+            const btnRecuperar = document.getElementsByTagName("button")[1];
+            const btnIterar = document.getElementsByTagName("button")[2];
+            const btnTema = document.getElementsByTagName("button")[3];
+
+            btnGuardar.addEventListener("click", () => {
+                localStorage.setItem("campers", JSON.stringify(vCampers));
+                alert("Guardado exitosamente");
+            });
+
+            btnRecuperar.addEventListener("click", () => {
+                const strCampers = localStorage.getItem("campers");
+                alert("Datos Recuperados");
+
+                console.log(strCampers);
+
+                const objCampers = JSON.parse(strCampers);
+                console.table(objCampers);
+            });
+
+            btnIterar.addEventListener("click", () => {
+                const strCampers = localStorage.getItem("campers");
+                const objCampers = JSON.parse(strCampers);
+
+                // iteración segura del localstorage no de la llave "campers"
+                Object.keys(localStorage).forEach((llave) => {
+                    console.log(llave, " -> ", localStorage.getItem(llave));
+                });
+            });
+
+            btnTema.addEventListener("click", (e) => {
+                // Intercambio el tema actual por el contrario y lo almaceno en el local storage
+                const nuevoTema = temaActual === "claro" ? "oscuro" : "claro";
+                localStorage.setItem("tema", nuevoTema);
+                // recargo la página y al inicio, en las constantes del tema, se cambia de tema
+                location.reload();
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Ejemplo Evento cambiar color</title>
+    </head>
+    <body>
+        <h1>Ejemplo evento cambiar color de fondo</h1>
+        <hr />
+        <button id="cambiaColor">Cambiar color de fondo</button>
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Deserunt
+            provident error quos perferendis hic est nam quisquam iusto quidem
+            itaque voluptates sit, accusantium suscipit adipisci architecto sint
+            magnam deleniti? Libero!
+        </p>
+
+        <script>
+            const boton = document.getElementById("cambiaColor");
+            const parrafo = document.querySelector("p");
+
+            // evento con propiedad
+            boton.onclick = () => alert("Haz presionado el botón");
+
+            // evento #2
+            boton.addEventListener("mouseover", () => parrafo.style.color = "tomato");
+
+            // evento #3
+            boton.addEventListener("mouseout", () => parrafo.style.color = "aquamarine");
+        </script>
+    </body>
+</html>

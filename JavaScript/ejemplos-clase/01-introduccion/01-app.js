@@ -1,0 +1,1 @@
+console.log("Hola mundo C4 - Desde un archivo externo");
