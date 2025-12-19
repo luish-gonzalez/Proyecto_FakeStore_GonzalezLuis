@@ -1,0 +1,60 @@
+/* Variables CSS */
+:root {
+  --color-font-st: brown;
+}
+
+* {
+  color: var(--color-font-st);
+}
+
+body {
+  background-color: cornsilk;
+  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+}
+
+/* estilo a la etiqueta header (encabezado) */
+header {
+  background-image: linear-gradient(225deg, blue, rgba(8, 0, 255, 0.137));
+  color: var(--color-font-st);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h3 {
+  background-color: rgba(255, 127, 80, 0.387);
+  color: #701705;
+}
+
+.dolor {
+  color: rebeccapurple;
+}
+
+#resaltado {
+  font-weight: bold;
+  color: black;
+  font-size: 1.5em;
+}
+
+#caja {
+  width: 300px;
+  height: 300px;
+  border: 1px solid var(--color-font-st);
+  /*background: repeating-linear-gradient(
+    to right,
+    var(--color-font-st),
+    var(--color-font-st) 10px,
+    #f4a261 10px,
+    #f4a261 20px
+  );*/
+
+  /*background-image: url(/halloween_10440813.png);
+  background-size: 25%;
+  background-repeat: no-repeat;
+  background-position: 80% 70%;*/
+
+  /* color: white; */
+}
+
+#caja p {
+  color: black;
+  background-color: red;
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      .caja {
+        margin-top: 50px;
+        width: 100px;
+        height: 100px;
+        background: rebeccapurple;
+        transition: rotate 0.5s 1s, background 1s 1s, width 0.5s 1s,
+          height 0.8s 1.5s;
+      }
+      .caja:hover {
+        background: red;
+        width: 200px;
+        height: 200px;
+        rotate: 180deg;
+
+        transition-property: all; /*background, width, height;*/
+        transition-duration: 2s;
+        transition-delay: 1s;
+      }
+
+      .paren > div {
+        width: 12em;
+        min-width: 12em;
+        padding: 3px;
+        margin-bottom: 4px;
+        background-color: black;
+        color: white;
+        transition-property: all;
+        transition-duration: 7s;
+      }
+
+      .paren:hover > div {
+        width: 90vw;
+        min-width: 24em;
+        background-color: blue;
+        color: orange;
+        border: 1px solid orange;
+        transition-property: all;
+        transition-duration: 2s;
+      }
+      .ease {
+        transition-timing-function: ease;
+      }
+      .easein {
+        transition-timing-function: ease-in;
+      }
+      .easeout {
+        transition-timing-function: ease-out;
+      }
+      .easeinout {
+        transition-timing-function: ease-in-out;
+      }
+      .linear {
+        transition-timing-function: linear;
+      }
+      .cubic {
+        transition-timing-function: cubic-bezier(.15,1.42,.83,.13);
+      }
+    </style>
+  </head>  
+  <body>
+    <h1>Transiciones</h1>
+    <hr />
+
+    <div class="caja"></div>
+
+    <br /><br />
+    <div class="paren">
+      <div class="ease">Ease</div>
+      <div class="easein">Ease-in</div>
+      <div class="easeout">Ease-out</div>
+      <div class="easeinout">Ease-in-out</div>
+      <div class="linear">Linear</div>
+      <div class="cubic">Cubic-bezier</div>
+    </div>
+  </body>
+</html>
