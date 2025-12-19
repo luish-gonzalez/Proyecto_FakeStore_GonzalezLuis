@@ -3,12 +3,12 @@ body { margin: 0; font-family: sans-serif; }
 
 .layout { /* main -> layout */
     display: grid;
-        gap: 1rem;
-        padding: 1rem;
-        grid-template-columns: 1fr 320px;
-        grid-template-areas:
-            "controls controls"
-            "products cart";
+    gap: 1rem;
+    padding: 1rem;
+    grid-template-columns: 1fr 320px;
+    grid-template-areas:
+        "controls controls"
+        "products cart";
 } 
 .products { display: grid; /* section -> products */
     gap: 1rem;
@@ -31,6 +31,7 @@ body { margin: 0; font-family: sans-serif; }
     grid-area: controls;
     display: grid; /* botones más “tocables”+espaciado+legibilidad */
     gap: .75rem;
+    padding: 1rem;
 }
 .controls input, .controls select { /* botones más “tocables”+espaciado+legibilidad */
     padding: .7rem;
@@ -39,6 +40,7 @@ body { margin: 0; font-family: sans-serif; }
 
 .cart { /* aside -> cart */
     grid-area: cart;
+    background: var(--card);
 }
 
 /* Media query para tablet/móvil */

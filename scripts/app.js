@@ -55,7 +55,7 @@ function renderCart() {
           <img class="cart-item__img" src="${item.image}" alt="${item.title}">
           <div class="cart-item__info">
             <p class="cart-item__title">${item.title}</p>
-            <p>$ ${item.price}</p>
+            <p>$${Number(item.price).toFixed(2)}</p>
             <div class="cart-item__actions">
               <button class="btn btn--small" data-action="dec" data-id="${item.id}">-</button>
               <span>${item.qty}</span>
@@ -139,8 +139,8 @@ function renderProducts(list) {
         <article class="card">
           <img class="card__img" src="${p.image}" alt="${p.title}">
           <h3 class="card__title">${p.title}</h3>
-          <p class="card__price">$ ${p.price}</p>
-          <button class="btn" data-id="${p.id}">Agregar</button> // eventos del carrito (clic en “Agregar”)
+          <p class="card__price">$${Number(p.price).toFixed(2)}</p>
+          <button class="btn" data-id="${p.id}">Agregar</button>
         </article>
       `;
     })
