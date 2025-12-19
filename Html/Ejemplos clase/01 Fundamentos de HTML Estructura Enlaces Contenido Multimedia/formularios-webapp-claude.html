@@ -1,0 +1,2471 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Academia HTML Forms Pro 2025 - 30 Elementos Esenciales</title>
+  <style>
+    /* ============================================
+       RESET Y VARIABLES
+    ============================================ */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --success: #10b981;
+      --error: #ef4444;
+      --warning: #f59e0b;
+      --info: #3b82f6;
+      --bg-main: #f8fafc;
+      --bg-card: #ffffff;
+      --text-primary: #1e293b;
+      --text-secondary: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+      --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.04);
+      --radius: 12px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+      background: var(--bg-main);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    /* ============================================
+       HEADER Y BARRA DE PROGRESO
+    ============================================ */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      padding: 24px 32px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .header-title p {
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    .header-stats {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .progress-container {
+      width: 100%;
+      margin-top: 16px;
+      background: rgba(255,255,255,0.2);
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--success);
+      width: 0%;
+      transition: width 0.5s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* ============================================
+       LAYOUT PRINCIPAL
+    ============================================ */
+    .main-layout {
+      display: flex;
+      max-width: 1400px;
+      margin: 0 auto;
+      gap: 32px;
+      padding: 32px;
+    }
+
+    /* ============================================
+       NAVEGACIÓN LATERAL
+    ============================================ */
+    nav {
+      width: 300px;
+      flex-shrink: 0;
+      position: sticky;
+      top: 120px;
+      height: fit-content;
+      max-height: calc(100vh - 160px);
+      overflow-y: auto;
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    nav h3 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      color: var(--primary);
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: var(--text-primary);
+      position: relative;
+      font-size: 0.9rem;
+    }
+
+    .nav-item:hover {
+      background: #f1f5f9;
+      transform: translateX(4px);
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+    }
+
+    .nav-item.completed::after {
+      content: '✓';
+      position: absolute;
+      right: 12px;
+      color: var(--success);
+      font-weight: bold;
+    }
+
+    .nav-item.completed.active::after {
+      color: white;
+    }
+
+    .nav-item.locked {
+      opacity: 0.4;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    .nav-number {
+      width: 28px;
+      height: 28px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .nav-item.active .nav-number {
+      background: white;
+      color: var(--primary);
+    }
+
+    .nav-item.completed .nav-number {
+      background: var(--success);
+    }
+
+    .nav-item.locked .nav-number {
+      background: var(--text-secondary);
+    }
+
+    /* ============================================
+       CONTENIDO PRINCIPAL
+    ============================================ */
+    main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .lesson {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 40px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s forwards;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .lesson.hidden {
+      display: none;
+    }
+
+    .lesson-header {
+      margin-bottom: 32px;
+      padding-bottom: 24px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .lesson-header h2 {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .lesson-header h2 code {
+      background: #f1f5f9;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 1.6rem;
+    }
+
+    .lesson-intro {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ============================================
+       DEMO INTERACTIVA
+    ============================================ */
+    .demo-section {
+      margin: 32px 0;
+      padding: 32px;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border-radius: var(--radius);
+      border: 2px solid var(--border);
+    }
+
+    .demo-section h3 {
+      color: var(--primary);
+      margin-bottom: 20px;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .demo-form {
+      max-width: 500px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea,
+    .form-group output {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+
+    .form-group output {
+      display: inline-block;
+      width: auto;
+      padding: 4px 12px;
+      background: var(--primary);
+      color: white;
+      font-weight: 600;
+      border: none;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    }
+
+    .hint {
+      display: block;
+      margin-top: 6px;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    /* ============================================
+       BLOQUE DE CÓDIGO
+    ============================================ */
+    .code-section {
+      margin: 32px 0;
+    }
+
+    .code-section h3 {
+      color: var(--primary);
+      margin-bottom: 16px;
+      font-size: 1.3rem;
+    }
+
+    .code-block {
+      position: relative;
+      background: #1e293b;
+      color: #e2e8f0;
+      padding: 24px;
+      border-radius: var(--radius);
+      overflow-x: auto;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .code-block .comment { color: #94a3b8; }
+    .code-block .tag { color: #60a5fa; }
+    .code-block .attr { color: #a78bfa; }
+    .code-block .string { color: #34d399; }
+
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 6px 12px;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+
+    /* ============================================
+       TABLA DE ATRIBUTOS
+    ============================================ */
+    .attributes-section {
+      margin: 32px 0;
+    }
+
+    .attributes-section h3 {
+      color: var(--primary);
+      margin-bottom: 16px;
+      font-size: 1.3rem;
+    }
+
+    .attributes-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .attributes-table th {
+      background: var(--primary);
+      color: white;
+      padding: 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .attributes-table td {
+      padding: 14px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .attributes-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .attributes-table tr:hover {
+      background: #f8fafc;
+    }
+
+    .attributes-table code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--primary);
+      font-size: 0.85em;
+    }
+
+    /* ============================================
+       BEST PRACTICE
+    ============================================ */
+    .best-practice {
+      margin: 32px 0;
+      padding: 20px;
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 4px solid var(--warning);
+      border-radius: var(--radius);
+    }
+
+    .best-practice strong {
+      color: #92400e;
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* ============================================
+       DESAFÍO DE APRENDIZAJE
+    ============================================ */
+    .challenge-section {
+      margin: 32px 0;
+      padding: 32px;
+      background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+      border-radius: var(--radius);
+      border: 3px solid var(--primary);
+    }
+
+    .challenge-section h3 {
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .challenge-description {
+      background: white;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .code-editor {
+      background: #1e293b;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .code-editor-header {
+      background: #0f172a;
+      padding: 12px 16px;
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .code-editor textarea {
+      width: 100%;
+      min-height: 180px;
+      padding: 16px;
+      background: #1e293b;
+      color: #e2e8f0;
+      border: none;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      resize: vertical;
+    }
+
+    .preview-section {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      min-height: 120px;
+      border: 2px solid var(--border);
+    }
+
+    .preview-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .challenge-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .feedback {
+      padding: 16px;
+      border-radius: 8px;
+      margin-top: 16px;
+      display: none;
+      animation: slideIn 0.3s;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .feedback.success {
+      background: #d1fae5;
+      color: #065f46;
+      border: 2px solid var(--success);
+    }
+
+    .feedback.error {
+      background: #fee2e2;
+      color: #991b1b;
+      border: 2px solid var(--error);
+    }
+
+    .feedback strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 1.1rem;
+    }
+
+    /* ============================================
+       NAVEGACIÓN DE LECCIÓN
+    ============================================ */
+    .lesson-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 40px;
+      padding-top: 32px;
+      border-top: 2px solid var(--border);
+      gap: 16px;
+    }
+
+    /* ============================================
+       BADGES Y PUNTUACIÓN
+    ============================================ */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: var(--success);
+      color: white;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      animation: bounceIn 0.5s;
+    }
+
+    @keyframes bounceIn {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+
+    /* ============================================
+       CERTIFICADO
+    ============================================ */
+    .certificate {
+      background: white;
+      padding: 60px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-lg);
+      text-align: center;
+      border: 8px solid var(--primary);
+      margin: 40px 0;
+    }
+
+    .certificate h2 {
+      font-size: 2.5rem;
+      color: var(--primary);
+      margin-bottom: 24px;
+    }
+
+    .certificate .student-name {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin: 24px 0;
+      padding: 16px;
+      border-top: 2px solid var(--border);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .certificate-badge {
+      display: inline-block;
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, var(--success) 0%, #059669 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      margin: 24px auto;
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* ============================================
+       FORMULARIO MAESTRO FINAL
+    ============================================ */
+    .master-form {
+      background: linear-gradient(135deg, #f8fafc 0%, #e0e7ff 100%);
+      padding: 40px;
+      border-radius: var(--radius);
+      margin-top: 40px;
+    }
+
+    .master-form h3 {
+      color: var(--primary);
+      font-size: 1.8rem;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    fieldset {
+      border: 2px solid var(--border);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    legend {
+      font-weight: 600;
+      padding: 0 10px;
+      color: var(--primary);
+    }
+
+    .radio-group,
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .radio-group input,
+    .checkbox-group input {
+      width: auto;
+      cursor: pointer;
+    }
+
+    .radio-group label,
+    .checkbox-group label {
+      cursor: pointer;
+      margin: 0;
+    }
+
+    /* ============================================
+       RESPONSIVE
+    ============================================ */
+    @media (max-width: 1024px) {
+      .main-layout {
+        flex-direction: column;
+      }
+
+      nav {
+        width: 100%;
+        position: static;
+        max-height: none;
+      }
+
+      .header-stats {
+        width: 100%;
+        justify-content: space-around;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .main-layout {
+        padding: 16px;
+      }
+
+      .lesson {
+        padding: 24px;
+      }
+
+      .lesson-header h2 {
+        font-size: 1.5rem;
+      }
+
+      .certificate {
+        padding: 32px 20px;
+      }
+
+      nav {
+        padding: 16px;
+      }
+
+      .nav-item {
+        font-size: 0.85rem;
+        padding: 8px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       HEADER CON PROGRESO
+  ============================================ -->
+  <header>
+    <div class="header-content">
+      <div class="header-title">
+        <h1>🎓 Academia HTML Forms Pro 2025</h1>
+        <p>Domina los 30 elementos de formulario más usados en la industria</p>
+      </div>
+      <div class="header-stats">
+        <div class="stat-item">
+          <span class="stat-value" id="total-score">0</span>
+          <span class="stat-label">Puntos</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="completed-lessons">0/30</span>
+          <span class="stat-label">Lecciones</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="total-badges">0</span>
+          <span class="stat-label">Badges</span>
+        </div>
+      </div>
+      <div class="progress-container">
+        <div class="progress-bar" id="global-progress"></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================
+       LAYOUT PRINCIPAL
+  ============================================ -->
+  <div class="main-layout">
+    
+    <!-- NAVEGACIÓN LATERAL -->
+    <nav id="side-nav">
+      <h3>📚 Índice del Curso</h3>
+      <a href="#lesson-1" class="nav-item active" data-lesson="1">
+        <span class="nav-number">1</span>
+        <span>Input Email</span>
+      </a>
+      <a href="#lesson-2" class="nav-item locked" data-lesson="2">
+        <span class="nav-number">2</span>
+        <span>Input URL</span>
+      </a>
+      <a href="#lesson-3" class="nav-item locked" data-lesson="3">
+        <span class="nav-number">3</span>
+        <span>Input Tel</span>
+      </a>
+      <a href="#lesson-4" class="nav-item locked" data-lesson="4">
+        <span class="nav-number">4</span>
+        <span>Input Search</span>
+      </a>
+      <a href="#lesson-5" class="nav-item locked" data-lesson="5">
+        <span class="nav-number">5</span>
+        <span>Input Date</span>
+      </a>
+      <a href="#lesson-6" class="nav-item locked" data-lesson="6">
+        <span class="nav-number">6</span>
+        <span>Input Time</span>
+      </a>
+      <a href="#lesson-7" class="nav-item locked" data-lesson="7">
+        <span class="nav-number">7</span>
+        <span>Input Datetime-local</span>
+      </a>
+      <a href="#lesson-8" class="nav-item locked" data-lesson="8">
+        <span class="nav-number">8</span>
+        <span>Input Month</span>
+      </a>
+      <a href="#lesson-9" class="nav-item locked" data-lesson="9">
+        <span class="nav-number">9</span>
+        <span>Input Week</span>
+      </a>
+      <a href="#lesson-10" class="nav-item locked" data-lesson="10">
+        <span class="nav-number">10</span>
+        <span>Input Color</span>
+      </a>
+      <a href="#lesson-11" class="nav-item locked" data-lesson="11">
+        <span class="nav-number">11</span>
+        <span>Input Range</span>
+      </a>
+      <a href="#lesson-12" class="nav-item locked" data-lesson="12">
+        <span class="nav-number">12</span>
+        <span>Input File</span>
+      </a>
+      <a href="#lesson-13" class="nav-item locked" data-lesson="13">
+        <span class="nav-number">13</span>
+        <span>Input Hidden</span>
+      </a>
+      <a href="#lesson-14" class="nav-item locked" data-lesson="14">
+        <span class="nav-number">14</span>
+        <span>Input Checkbox</span>
+      </a>
+      <a href="#lesson-15" class="nav-item locked" data-lesson="15">
+        <span class="nav-number">15</span>
+        <span>Input Radio</span>
+      </a>
+      <a href="#lesson-16" class="nav-item locked" data-lesson="16">
+        <span class="nav-number">16</span>
+        <span>Select</span>
+      </a>
+      <a href="#lesson-17" class="nav-item locked" data-lesson="17">
+        <span class="nav-number">17</span>
+        <span>Select Multiple</span>
+      </a>
+      <a href="#lesson-18" class="nav-item locked" data-lesson="18">
+        <span class="nav-number">18</span>
+        <span>Datalist</span>
+      </a>
+      <a href="#lesson-19" class="nav-item locked" data-lesson="19">
+        <span class="nav-number">19</span>
+        <span>Output</span>
+      </a>
+      <a href="#lesson-20" class="nav-item locked" data-lesson="20">
+        <span class="nav-number">20</span>
+        <span>Progress</span>
+      </a>
+      <a href="#lesson-21" class="nav-item locked" data-lesson="21">
+        <span class="nav-number">21</span>
+        <span>Meter</span>
+      </a>
+      <a href="#lesson-22" class="nav-item locked" data-lesson="22">
+        <span class="nav-number">22</span>
+        <span>Button</span>
+      </a>
+      <a href="#lesson-23" class="nav-item locked" data-lesson="23">
+        <span class="nav-number">23</span>
+        <span>Button Submit</span>
+      </a>
+      <a href="#lesson-24" class="nav-item locked" data-lesson="24">
+        <span class="nav-number">24</span>
+        <span>Button Reset</span>
+      </a>
+      <a href="#lesson-25" class="nav-item locked" data-lesson="25">
+        <span class="nav-number">25</span>
+        <span>Fieldset & Legend</span>
+      </a>
+      <a href="#lesson-26" class="nav-item locked" data-lesson="26">
+        <span class="nav-number">26</span>
+        <span>Label</span>
+      </a>
+      <a href="#lesson-27" class="nav-item locked" data-lesson="27">
+        <span class="nav-number">27</span>
+        <span>Optgroup</span>
+      </a>
+      <a href="#lesson-28" class="nav-item locked" data-lesson="28">
+        <span class="nav-number">28</span>
+        <span>Input Image</span>
+      </a>
+      <a href="#lesson-29" class="nav-item locked" data-lesson="29">
+        <span class="nav-number">29</span>
+        <span>Details & Summary</span>
+      </a>
+      <a href="#lesson-30" class="nav-item locked" data-lesson="30">
+        <span class="nav-number">30</span>
+        <span>Dialog</span>
+      </a>
+      <a href="#certificate" class="nav-item locked" data-lesson="certificate">
+        <span class="nav-number">🏆</span>
+        <span>Certificado</span>
+      </a>
+    </nav>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+
+      <!-- ============================================
+           LECCIÓN 1: INPUT EMAIL
+      ============================================ -->
+      <section id="lesson-1" class="lesson" data-lesson="1">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="email"&gt;</code></h2>
+          <p class="lesson-intro">
+            Valida automáticamente el formato de correo electrónico y optimiza el teclado en dispositivos móviles mostrando el símbolo @ directamente. Es el campo más usado en formularios de registro y login.
+          </p>
+        </div>
+
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Email: ' + this.email.value);">
+            <div class="form-group">
+              <label for="demo-email">Correo electrónico *</label>
+              <input 
+                type="email" 
+                id="demo-email" 
+                name="email"
+                placeholder="tu@ejemplo.com"
+                autocomplete="email"
+                required
+              >
+              <span class="hint">Formato válido: usuario@dominio.com</span>
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+
+        <div class="code-section">
+          <h3>💻 Sintaxis</h3>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+<span class="tag">&lt;input</span>
+  <span class="attr">type</span>=<span class="string">"email"</span>                   <span class="comment">&lt;!-- Valida formato email automáticamente --&gt;</span>
+  <span class="attr">id</span>=<span class="string">"user-email"</span>                <span class="comment">&lt;!-- ID único para el label --&gt;</span>
+  <span class="attr">name</span>=<span class="string">"email"</span>                   <span class="comment">&lt;!-- Nombre del campo --&gt;</span>
+  <span class="attr">autocomplete</span>=<span class="string">"email"</span>           <span class="comment">&lt;!-- Autocompletado específico --&gt;</span>
+  <span class="attr">required</span>                       <span class="comment">&lt;!-- Campo obligatorio --&gt;</span>
+  <span class="attr">multiple</span>                       <span class="comment">&lt;!-- Permite múltiples emails (opcional) --&gt;</span>
+<span class="tag">&gt;</span>
+          </div>
+        </div>
+
+        <div class="attributes-section">
+          <h3>📋 Atributos Clave</h3>
+          <table class="attributes-table">
+            <thead>
+              <tr>
+                <th>Atributo</th>
+                <th>Descripción</th>
+                <th>Best Practice</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><code>autocomplete="email"</code></td>
+                <td>Habilita autocompletado específico</td>
+                <td><strong>Obligatorio en 2025</strong>. Mejora conversión hasta 30%</td>
+              </tr>
+              <tr>
+                <td><code>multiple</code></td>
+                <td>Permite varios emails separados por coma</td>
+                <td>Usa solo en contextos específicos (invitaciones)</td>
+              </tr>
+              <tr>
+                <td><code>spellcheck</code></td>
+                <td>Control de corrección ortográfica</td>
+                <td>Desactiva con spellcheck="false" en emails</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Siempre usa <code>autocomplete="email"</code>. Es crítico para conversión mobile y cumplimiento del estándar de autofill.
+        </div>
+
+        <div class="challenge-section">
+          <h3>🎯 Desafío de Aprendizaje</h3>
+          <div class="challenge-description">
+            <strong>Objetivo:</strong> Crea un campo email con:
+            <ul style="margin-left: 20px; margin-top: 8px;">
+              <li>ID y name: "user-email"</li>
+              <li>Autocomplete: "email"</li>
+              <li>Placeholder: "correo@ejemplo.com"</li>
+              <li>Requerido: Sí</li>
+            </ul>
+          </div>
+
+          <div class="code-editor">
+            <div class="code-editor-header">✏️ Editor de Código</div>
+            <textarea id="challenge-1-code" placeholder="Escribe tu código HTML aquí..."></textarea>
+          </div>
+
+          <div class="preview-section">
+            <div class="preview-label">👁️ Vista Previa</div>
+            <div id="challenge-1-preview"></div>
+          </div>
+
+          <div class="challenge-actions">
+            <button class="btn btn-primary" onclick="validateChallenge(1)">✓ Validar Solución</button>
+            <button class="btn" onclick="showSolution(1)" style="background: var(--text-secondary); color: white;">💡 Ver Solución</button>
+          </div>
+
+          <div id="challenge-1-feedback" class="feedback"></div>
+        </div>
+
+        <div class="lesson-nav">
+          <button class="btn" disabled style="opacity: 0.5;">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(1)">Siguiente Lección →</button>
+        </div>
+      </section>
+
+      <!-- ============================================
+           LECCIÓN 2: INPUT URL
+      ============================================ -->
+      <section id="lesson-2" class="lesson hidden" data-lesson="2">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="url"&gt;</code></h2>
+          <p class="lesson-intro">
+            Valida el formato de URL y optimiza el teclado en mobile mostrando teclas como .com, .es y /. Perfecto para sitios web, portfolios y redes sociales.
+          </p>
+        </div>
+
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('URL: ' + this.website.value);">
+            <div class="form-group">
+              <label for="demo-url">Sitio web</label>
+              <input 
+                type="url" 
+                id="demo-url" 
+                name="website"
+                placeholder="https://ejemplo.com"
+                autocomplete="url"
+                inputmode="url"
+              >
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+
+        <div class="code-section">
+          <h3>💻 Sintaxis</h3>
+          <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)">📋 Copiar</button>
+<span class="tag">&lt;input</span>
+  <span class="attr">type</span>=<span class="string">"url"</span>                     <span class="comment">&lt;!-- Valida formato URL --&gt;</span>
+  <span class="attr">autocomplete</span>=<span class="string">"url"</span>             <span class="comment">&lt;!-- Autocompletado de URL --&gt;</span>
+  <span class="attr">inputmode</span>=<span class="string">"url"</span>                <span class="comment">&lt;!-- Teclado optimizado mobile --&gt;</span>
+  <span class="attr">pattern</span>=<span class="string">"https://.*"</span>           <span class="comment">&lt;!-- Forzar HTTPS (opcional) --&gt;</span>
+<span class="tag">&gt;</span>
+          </div>
+        </div>
+
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa <code>inputmode="url"</code> para teclado optimizado en mobile con acceso directo a .com y /.
+        </div>
+
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Input URL con autocomplete="url" e inputmode="url"</h3>
+          <div class="code-editor">
+            <textarea id="challenge-2-code"></textarea>
+          </div>
+          <div class="preview-section"><div id="challenge-2-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(2)">✓ Validar</button>
+          <div id="challenge-2-feedback" class="feedback"></div>
+        </div>
+
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(1)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(2)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 3: TEL -->
+      <section id="lesson-3" class="lesson hidden" data-lesson="3">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="tel"&gt;</code></h2>
+          <p class="lesson-intro">Optimiza el teclado en móviles para números de teléfono. No valida automáticamente, debes usar pattern.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Tel: ' + this.phone.value);">
+            <div class="form-group">
+              <label for="demo-tel">Teléfono *</label>
+              <input type="tel" id="demo-tel" name="phone" placeholder="+34 600 000 000" autocomplete="tel" required pattern="[+]?[0-9\s\-\(\)]+" inputmode="tel">
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa <code>inputmode="tel"</code> + <code>pattern</code> para validación. type="tel" solo activa el teclado.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Input tel con pattern e inputmode</h3>
+          <div class="code-editor"><textarea id="challenge-3-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-3-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(3)">✓ Validar</button>
+          <div id="challenge-3-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(2)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(3)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 4: SEARCH -->
+      <section id="lesson-4" class="lesson hidden" data-lesson="4">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="search"&gt;</code></h2>
+          <p class="lesson-intro">Campo de búsqueda con X para limpiar. Cambia el botón Enter por "Buscar" en mobile.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Buscar: ' + this.q.value);">
+            <div class="form-group">
+              <label for="demo-search">Buscar</label>
+              <input type="search" id="demo-search" name="q" placeholder="Buscar productos..." autocomplete="off" inputmode="search" role="searchbox">
+            </div>
+            <button type="submit" class="btn btn-primary">🔍 Buscar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Combina <code>type="search"</code> + <code>inputmode="search"</code> + <code>role="searchbox"</code> para experiencia completa.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Search con role="searchbox" e inputmode="search"</h3>
+          <div class="code-editor"><textarea id="challenge-4-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-4-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(4)">✓ Validar</button>
+          <div id="challenge-4-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(3)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(4)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 5: DATE -->
+      <section id="lesson-5" class="lesson hidden" data-lesson="5">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="date"&gt;</code></h2>
+          <p class="lesson-intro">Selector de fecha nativo. Formato ISO 8601 (YYYY-MM-DD).</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Fecha: ' + this.date.value);">
+            <div class="form-group">
+              <label for="demo-date">Fecha *</label>
+              <input type="date" id="demo-date" name="date" min="2020-01-01" max="2030-12-31" required autocomplete="bday">
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa <code>autocomplete="bday"</code> para fechas de nacimiento. Formato obligatorio: YYYY-MM-DD.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Input date con min y max</h3>
+          <div class="code-editor"><textarea id="challenge-5-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-5-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(5)">✓ Validar</button>
+          <div id="challenge-5-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(4)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(5)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 6: TIME -->
+      <section id="lesson-6" class="lesson hidden" data-lesson="6">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="time"&gt;</code></h2>
+          <p class="lesson-intro">Selector de hora sin zona horaria. Formato 24h (HH:MM) o 12h según la configuración del sistema.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Hora: ' + this.time.value);">
+            <div class="form-group">
+              <label for="demo-time">Hora de cita *</label>
+              <input type="time" id="demo-time" name="time" min="09:00" max="18:00" required step="900">
+              <span class="hint">Horario: 9:00 - 18:00 (intervalos de 15 min)</span>
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa <code>step="900"</code> para intervalos de 15 minutos (900 segundos). Define min y max para horarios laborales.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Input time con step="1800" (intervalos de 30 min)</h3>
+          <div class="code-editor"><textarea id="challenge-6-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-6-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(6)">✓ Validar</button>
+          <div id="challenge-6-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(5)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(6)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 7: DATETIME-LOCAL -->
+      <section id="lesson-7" class="lesson hidden" data-lesson="7">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="datetime-local"&gt;</code></h2>
+          <p class="lesson-intro">Selector de fecha y hora sin zona horaria. Ideal para eventos, citas y recordatorios locales.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Fecha/Hora: ' + this.datetime.value);">
+            <div class="form-group">
+              <label for="demo-datetime">Fecha y hora del evento *</label>
+              <input type="datetime-local" id="demo-datetime" name="datetime" required>
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Perfecto para reservas y eventos. Formato: YYYY-MM-DDTHH:MM. No incluye zona horaria.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Datetime-local con min=hoy</h3>
+          <div class="code-editor"><textarea id="challenge-7-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-7-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(7)">✓ Validar</button>
+          <div id="challenge-7-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(6)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(7)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 8: MONTH -->
+      <section id="lesson-8" class="lesson hidden" data-lesson="8">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="month"&gt;</code></h2>
+          <p class="lesson-intro">Selector de mes y año. Útil para fechas de expiración, periodos de facturación y datos históricos mensuales.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Mes: ' + this.month.value);">
+            <div class="form-group">
+              <label for="demo-month">Fecha de expiración (tarjeta) *</label>
+              <input type="month" id="demo-month" name="month" required autocomplete="cc-exp">
+              <span class="hint">Formato: MM/AAAA</span>
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa <code>autocomplete="cc-exp"</code> para fechas de expiración de tarjetas. Formato: YYYY-MM.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Input month con autocomplete="cc-exp"</h3>
+          <div class="code-editor"><textarea id="challenge-8-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-8-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(8)">✓ Validar</button>
+          <div id="challenge-8-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(7)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(8)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 9: WEEK -->
+      <section id="lesson-9" class="lesson hidden" data-lesson="9">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="week"&gt;</code></h2>
+          <p class="lesson-intro">Selector de semana del año. Útil para reportes semanales, planificación y timetracking.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Semana: ' + this.week.value);">
+            <div class="form-group">
+              <label for="demo-week">Semana del reporte *</label>
+              <input type="week" id="demo-week" name="week" required>
+              <span class="hint">Formato: YYYY-W##</span>
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Formato ISO 8601: YYYY-W##. Perfecto para planificación semanal y reportes.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Input week básico</h3>
+          <div class="code-editor"><textarea id="challenge-9-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-9-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(9)">✓ Validar</button>
+          <div id="challenge-9-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(8)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(9)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 10: COLOR -->
+      <section id="lesson-10" class="lesson hidden" data-lesson="10">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="color"&gt;</code></h2>
+          <p class="lesson-intro">Selector de color visual. Retorna valores hexadecimales (#RRGGBB). Ideal para personalización y temas.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Color: ' + this.color.value);">
+            <div class="form-group">
+              <label for="demo-color">Color de tema</label>
+              <input type="color" id="demo-color" name="color" value="#6366f1">
+              <span class="hint">Selecciona tu color favorito</span>
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Siempre define un <code>value</code> por defecto en formato hexadecimal (#RRGGBB). No soporta transparencia.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Color picker con value="#ff0000"</h3>
+          <div class="code-editor"><textarea id="challenge-10-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-10-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(10)">✓ Validar</button>
+          <div id="challenge-10-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(9)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(10)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 11: RANGE -->
+      <section id="lesson-11" class="lesson hidden" data-lesson="11">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="range"&gt;</code></h2>
+          <p class="lesson-intro">Control deslizante (slider). Combina siempre con &lt;output&gt; para mostrar el valor actual.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Volumen: ' + this.vol.value);">
+            <div class="form-group">
+              <label for="demo-range">Volumen: <output id="vol-output">50</output></label>
+              <input type="range" id="demo-range" name="vol" min="0" max="100" value="50" oninput="document.getElementById('vol-output').value=this.value">
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa <code>&lt;output&gt;</code> para mostrar el valor. Los usuarios no pueden ver el valor en el slider.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Range 1-10, step=0.5, con output</h3>
+          <div class="code-editor"><textarea id="challenge-11-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-11-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(11)">✓ Validar</button>
+          <div id="challenge-11-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(10)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(11)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 12: FILE -->
+      <section id="lesson-12" class="lesson hidden" data-lesson="12">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="file"&gt;</code></h2>
+          <p class="lesson-intro">Selector de archivos. Usa accept para filtrar tipos y capture para activar cámara en mobile.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Archivo: ' + (this.file.files[0]?.name || 'ninguno'));">
+            <div class="form-group">
+              <label for="demo-file">Subir documento</label>
+              <input type="file" id="demo-file" name="file" accept="image/*,application/pdf" multiple>
+              <span class="hint">Imágenes o PDF. Máx. 5MB cada uno</span>
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa <code>accept="image/*"</code> y <code>capture="user"</code> para activar cámara frontal en avatares.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: File para imágenes con capture="user"</h3>
+          <div class="code-editor"><textarea id="challenge-12-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-12-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(12)">✓ Validar</button>
+          <div id="challenge-12-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(11)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(12)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 13: HIDDEN -->
+      <section id="lesson-13" class="lesson hidden" data-lesson="13">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="hidden"&gt;</code></h2>
+          <p class="lesson-intro">Campo invisible que envía datos sin mostrarse al usuario. Esencial para tokens CSRF, IDs y metadata.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Token: ' + this.csrf.value);">
+            <input type="hidden" name="csrf" value="abc123xyz789">
+            <p style="padding: 16px; background: #fef3c7; border-radius: 8px; margin-bottom: 16px;">
+              ℹ️ Hay un campo hidden con token CSRF (no visible). Envía el formulario para verlo.
+            </p>
+            <button type="submit" class="btn btn-primary">✓ Enviar Formulario</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa para tokens CSRF, IDs de sesión, versiones. NUNCA para contraseñas o datos sensibles en claro.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Hidden con name="user_id" y value="12345"</h3>
+          <div class="code-editor"><textarea id="challenge-13-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-13-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(13)">✓ Validar</button>
+          <div id="challenge-13-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(12)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(13)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 14: CHECKBOX -->
+      <section id="lesson-14" class="lesson hidden" data-lesson="14">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="checkbox"&gt;</code></h2>
+          <p class="lesson-intro">Casilla de verificación para opciones múltiples. El label debe ser clickeable (incrementa área de clic 300%).</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Términos: ' + this.terms.checked);">
+            <div class="checkbox-group">
+              <input type="checkbox" id="demo-check" name="terms" required value="accepted">
+              <label for="demo-check">Acepto términos *</label>
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Label debe conectarse con <code>for</code>. Define <code>value</code> explícito. Si no se marca, no se envía nada.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Checkbox newsletter checked por defecto</h3>
+          <div class="code-editor"><textarea id="challenge-14-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-14-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(14)">✓ Validar</button>
+          <div id="challenge-14-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(13)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(14)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 15: RADIO -->
+      <section id="lesson-15" class="lesson hidden" data-lesson="15">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="radio"&gt;</code></h2>
+          <p class="lesson-intro">Opciones mutuamente excluyentes. SIEMPRE agrupa con fieldset + legend para accesibilidad WCAG.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Envío: ' + this.shipping.value);">
+            <fieldset style="border: 2px solid #e2e8f0; padding: 16px; border-radius: 8px;">
+              <legend style="font-weight: 600;">Envío *</legend>
+              <div class="radio-group">
+                <input type="radio" id="std" name="shipping" value="standard" checked required>
+                <label for="std">Estándar - Gratis</label>
+              </div>
+              <div class="radio-group">
+                <input type="radio" id="exp" name="shipping" value="express" required>
+                <label for="exp">Express - 5€</label>
+              </div>
+            </fieldset>
+            <button type="submit" class="btn btn-primary" style="margin-top: 12px;">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Mismo <code>name</code> para agrupar. Usa fieldset + legend. Selecciona opción por defecto con checked.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: 3 radios (S/M/L) con M seleccionado</h3>
+          <div class="code-editor"><textarea id="challenge-15-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-15-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(15)">✓ Validar</button>
+          <div id="challenge-15-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(14)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(15)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 16: SELECT -->
+      <section id="lesson-16" class="lesson hidden" data-lesson="16">
+        <div class="lesson-header">
+          <h2><code>&lt;select&gt;</code></h2>
+          <p class="lesson-intro">Lista desplegable. Primera option debe estar vacía si usas required. Usa autocomplete para mejorar UX.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('País: ' + this.country.value);">
+            <div class="form-group">
+              <label for="demo-select">País *</label>
+              <select id="demo-select" name="country" autocomplete="country" required>
+                <option value="">-- Selecciona --</option>
+                <option value="ES">España</option>
+                <option value="MX">México</option>
+                <option value="AR">Argentina</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Primera option: <code>&lt;option value=""&gt;-- Selecciona --&lt;/option&gt;</code> para que required funcione.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Select con 3 colores y option vacía</h3>
+          <div class="code-editor"><textarea id="challenge-16-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-16-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(16)">✓ Validar</button>
+          <div id="challenge-16-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(15)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(16)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 17: SELECT MULTIPLE -->
+      <section id="lesson-17" class="lesson hidden" data-lesson="17">
+        <div class="lesson-header">
+          <h2><code>&lt;select multiple&gt;</code></h2>
+          <p class="lesson-intro">Selección múltiple (Ctrl/Cmd + clic). UX limitada en mobile. Considera checkboxes para >3 opciones.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Idiomas: ' + Array.from(this.langs).filter(o=>o.selected).map(o=>o.value).join(', '));">
+            <div class="form-group">
+              <label for="demo-multiple">Idiomas (mantén Ctrl/Cmd)</label>
+              <select id="demo-multiple" name="langs" multiple size="4">
+                <option value="es">Español</option>
+                <option value="en">Inglés</option>
+                <option value="fr">Francés</option>
+                <option value="de">Alemán</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa <code>size</code> para mostrar múltiples opciones. Para mejor UX en mobile, usa checkboxes en su lugar.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Select multiple con size="5"</h3>
+          <div class="code-editor"><textarea id="challenge-17-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-17-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(17)">✓ Validar</button>
+          <div id="challenge-17-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(16)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(17)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 18: DATALIST -->
+      <section id="lesson-18" class="lesson hidden" data-lesson="18">
+        <div class="lesson-header">
+          <h2><code>&lt;datalist&gt;</code></h2>
+          <p class="lesson-intro">Autocompletado con sugerencias. Combina input con lista de opciones predefinidas. El usuario puede escribir valores personalizados.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Ciudad: ' + this.city.value);">
+            <div class="form-group">
+              <label for="demo-datalist">Ciudad</label>
+              <input type="text" id="demo-datalist" name="city" list="cities" placeholder="Escribe o selecciona...">
+              <datalist id="cities">
+                <option value="Madrid">
+                <option value="Barcelona">
+                <option value="Valencia">
+                <option value="Sevilla">
+                <option value="Bilbao">
+              </datalist>
+            </div>
+            <button type="submit" class="btn btn-primary">✓ Probar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Conecta input con datalist usando <code>list="id"</code>. Permite valores personalizados (no restrictivo como select).
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Input + datalist con 5 navegadores</h3>
+          <div class="code-editor"><textarea id="challenge-18-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-18-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(18)">✓ Validar</button>
+          <div id="challenge-18-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(17)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(18)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 19: OUTPUT -->
+      <section id="lesson-19" class="lesson hidden" data-lesson="19">
+        <div class="lesson-header">
+          <h2><code>&lt;output&gt;</code></h2>
+          <p class="lesson-intro">Muestra resultados de cálculos o valores dinámicos. Semánticamente correcto para salidas de scripts.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" oninput="result.value=parseInt(a.value)+parseInt(b.value)">
+            <div class="form-group">
+              <label for="demo-output-a">Número A:</label>
+              <input type="number" id="demo-output-a" name="a" value="5">
+            </div>
+            <div class="form-group">
+              <label for="demo-output-b">Número B:</label>
+              <input type="number" id="demo-output-b" name="b" value="10">
+            </div>
+            <p style="padding: 16px; background: #f1f5f9; border-radius: 8px; margin-top: 16px;">
+              <strong>Suma:</strong> <output name="result" for="demo-output-a demo-output-b" style="font-size: 1.5rem; color: #6366f1; font-weight: 700;">15</output>
+            </p>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa <code>for</code> para vincular con inputs relacionados. Perfecto para calculadoras y valores calculados dinámicamente.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Output que muestre el valor de un range</h3>
+          <div class="code-editor"><textarea id="challenge-19-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-19-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(19)">✓ Validar</button>
+          <div id="challenge-19-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(18)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(19)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 20: PROGRESS -->
+      <section id="lesson-20" class="lesson hidden" data-lesson="20">
+        <div class="lesson-header">
+          <h2><code>&lt;progress&gt;</code></h2>
+          <p class="lesson-intro">Barra de progreso determinada. Muestra el avance de una tarea (0-100%). No confundir con &lt;meter&gt;.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form">
+            <div class="form-group">
+              <label>Subiendo archivo... <span id="prog-percent">70%</span></label>
+              <progress id="demo-progress" value="70" max="100" style="width: 100%; height: 24px;"></progress>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="document.getElementById('demo-progress').value=100; document.getElementById('prog-percent').textContent='100%'">Completar</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa para uploads, instalaciones, procesos. Define <code>value</code> (actual) y <code>max</code> (total). Actualiza con JS.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Progress con value="50" max="100"</h3>
+          <div class="code-editor"><textarea id="challenge-20-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-20-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(20)">✓ Validar</button>
+          <div id="challenge-20-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(19)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(20)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 21: METER -->
+      <section id="lesson-21" class="lesson hidden" data-lesson="21">
+        <div class="lesson-header">
+          <h2><code>&lt;meter&gt;</code></h2>
+          <p class="lesson-intro">Medidor de valor en un rango. Usa low/high/optimum para umbrales. Ideal para indicadores de nivel, capacidad, puntuación.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form">
+            <div class="form-group">
+              <label>Batería del dispositivo</label>
+              <meter value="0.6" min="0" max="1" low="0.3" high="0.7" optimum="0.9" style="width: 100%; height: 24px;"></meter>
+              <span class="hint">60% - Nivel aceptable</span>
+            </div>
+            <div class="form-group">
+              <label>Espacio en disco</label>
+              <meter value="85" min="0" max="100" low="20" high="80" optimum="50" style="width: 100%; height: 24px;"></meter>
+              <span class="hint">85% usado - Nivel crítico</span>
+            </div>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa <code>low/high/optimum</code> para definir rangos. Navegador aplica colores automáticamente (verde/amarillo/rojo).
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Meter con optimum="100" (indicador de satisfacción)</h3>
+          <div class="code-editor"><textarea id="challenge-21-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-21-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(21)">✓ Validar</button>
+          <div id="challenge-21-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(20)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(21)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 22: BUTTON -->
+      <section id="lesson-22" class="lesson hidden" data-lesson="22">
+        <div class="lesson-header">
+          <h2><code>&lt;button type="button"&gt;</code></h2>
+          <p class="lesson-intro">Botón genérico sin comportamiento por defecto. Más flexible que input type="button". Puede contener HTML.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form">
+            <button type="button" class="btn btn-primary" onclick="alert('¡Botón clickeado!')">
+              🔔 Notificarme
+            </button>
+            <button type="button" class="btn" style="background: #ef4444; color: white; margin-left: 8px;" onclick="alert('¡Eliminado!')">
+              🗑️ Eliminar
+            </button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Siempre especifica <code>type="button"</code> para evitar submit accidental. Puede contener HTML (iconos, imágenes).
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Button con icono ⭐ y texto "Favorito"</h3>
+          <div class="code-editor"><textarea id="challenge-22-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-22-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(22)">✓ Validar</button>
+          <div id="challenge-22-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(21)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(22)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 23: BUTTON SUBMIT -->
+      <section id="lesson-23" class="lesson hidden" data-lesson="23">
+        <div class="lesson-header">
+          <h2><code>&lt;button type="submit"&gt;</code></h2>
+          <p class="lesson-intro">Botón que envía el formulario. Type por defecto de &lt;button&gt;. Preferible a input type="submit".</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Formulario enviado');">
+            <div class="form-group">
+              <label for="demo-submit-name">Nombre</label>
+              <input type="text" id="demo-submit-name" required>
+            </div>
+            <button type="submit" class="btn btn-success">✓ Enviar Formulario</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Es el type por defecto. Preferible a <code>&lt;input type="submit"&gt;</code> porque acepta HTML interno.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Button submit con texto "Registrarse"</h3>
+          <div class="code-editor"><textarea id="challenge-23-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-23-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(23)">✓ Validar</button>
+          <div id="challenge-23-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(22)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(23)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 24: BUTTON RESET -->
+      <section id="lesson-24" class="lesson hidden" data-lesson="24">
+        <div class="lesson-header">
+          <h2><code>&lt;button type="reset"&gt;</code></h2>
+          <p class="lesson-intro">Resetea todos los campos del formulario a sus valores iniciales. Úsalo con precaución (puede frustrar al usuario).</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form">
+            <div class="form-group">
+              <label for="demo-reset-email">Email</label>
+              <input type="email" id="demo-reset-email" value="test@example.com">
+            </div>
+            <button type="reset" class="btn" style="background: var(--warning); color: white;">🔄 Resetear</button>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Úsalo solo cuando realmente sea necesario. Añade confirmación con JS para evitar pérdida accidental de datos.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Button reset básico</h3>
+          <div class="code-editor"><textarea id="challenge-24-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-24-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(24)">✓ Validar</button>
+          <div id="challenge-24-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(23)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(24)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 25: FIELDSET & LEGEND -->
+      <section id="lesson-25" class="lesson hidden" data-lesson="25">
+        <div class="lesson-header">
+          <h2><code>&lt;fieldset&gt;</code> y <code>&lt;legend&gt;</code></h2>
+          <p class="lesson-intro">Agrupa campos relacionados con un borde visual. Legend es el título del grupo. Crítico para accesibilidad en radios/checkboxes.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form">
+            <fieldset style="border: 2px solid #6366f1; padding: 20px; border-radius: 8px;">
+              <legend style="color: #6366f1; font-weight: 600; padding: 0 8px;">Información Personal</legend>
+              <div class="form-group">
+                <label for="demo-fieldset-name">Nombre</label>
+                <input type="text" id="demo-fieldset-name">
+              </div>
+              <div class="form-group">
+                <label for="demo-fieldset-age">Edad</label>
+                <input type="number" id="demo-fieldset-age">
+              </div>
+            </fieldset>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          SIEMPRE usa fieldset + legend para agrupar radios y checkboxes. Mejora accesibilidad WCAG 2.2.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Fieldset con legend "Contacto" y 2 inputs</h3>
+          <div class="code-editor"><textarea id="challenge-25-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-25-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(25)">✓ Validar</button>
+          <div id="challenge-25-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(24)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(25)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 26: LABEL -->
+      <section id="lesson-26" class="lesson hidden" data-lesson="26">
+        <div class="lesson-header">
+          <h2><code>&lt;label&gt;</code></h2>
+          <p class="lesson-intro">Etiqueta semántica que conecta texto con un campo. Incrementa área de clic y mejora accesibilidad dramáticamente.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form">
+            <div class="form-group">
+              <label for="demo-label-input">Haz clic en el texto para enfocar</label>
+              <input type="text" id="demo-label-input" placeholder="El label me activa">
+            </div>
+            <div class="checkbox-group">
+              <input type="checkbox" id="demo-label-check">
+              <label for="demo-label-check">Haz clic aquí (no en el checkbox)</label>
+            </div>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          SIEMPRE usa label con <code>for="id"</code>. Incrementa área de clic 300%+ en mobile. Crítico para WCAG.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Label conectado con input usando "for"</h3>
+          <div class="code-editor"><textarea id="challenge-26-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-26-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(26)">✓ Validar</button>
+          <div id="challenge-26-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(25)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(26)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 27: OPTGROUP -->
+      <section id="lesson-27" class="lesson hidden" data-lesson="27">
+        <div class="lesson-header">
+          <h2><code>&lt;optgroup&gt;</code></h2>
+          <p class="lesson-intro">Agrupa opciones dentro de un select con etiquetas visuales. Mejora organización en listas largas.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form">
+            <div class="form-group">
+              <label for="demo-optgroup">Selecciona tu ciudad</label>
+              <select id="demo-optgroup">
+                <option value="">-- Elige --</option>
+                <optgroup label="España">
+                  <option value="mad">Madrid</option>
+                  <option value="bcn">Barcelona</option>
+                </optgroup>
+                <optgroup label="México">
+                  <option value="cdmx">Ciudad de México</option>
+                  <option value="gdl">Guadalajara</option>
+                </optgroup>
+              </select>
+            </div>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa para categorizar opciones. El <code>label</code> de optgroup NO es seleccionable (solo visual).
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Select con 2 optgroups (Frontend/Backend)</h3>
+          <div class="code-editor"><textarea id="challenge-27-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-27-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(27)">✓ Validar</button>
+          <div id="challenge-27-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(26)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(27)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 28: INPUT IMAGE -->
+      <section id="lesson-28" class="lesson hidden" data-lesson="28">
+        <div class="lesson-header">
+          <h2><code>&lt;input type="image"&gt;</code></h2>
+          <p class="lesson-intro">Botón submit gráfico. Envía coordenadas X,Y del clic. Poco usado en 2025, preferir button con img.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <form class="demo-form" onsubmit="event.preventDefault(); alert('Enviado en: X=' + event.submitter?.name + '.x, Y=' + event.submitter?.name + '.y');">
+            <input type="image" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='40'%3E%3Crect width='120' height='40' rx='8' fill='%236366f1'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' fill='white' font-family='Arial' font-size='14' font-weight='bold'%3EEnviar%3C/text%3E%3C/svg%3E" alt="Enviar" name="submit-btn" style="cursor: pointer;">
+            <span class="hint">Haz clic en cualquier parte de la imagen</span>
+          </form>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          En 2025 es mejor usar <code>&lt;button type="submit"&gt;&lt;img...&gt;&lt;/button&gt;</code> por flexibilidad y accesibilidad.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Input image con alt="Enviar"</h3>
+          <div class="code-editor"><textarea id="challenge-28-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-28-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(28)">✓ Validar</button>
+          <div id="challenge-28-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(27)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(28)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 29: DETAILS & SUMMARY -->
+      <section id="lesson-29" class="lesson hidden" data-lesson="29">
+        <div class="lesson-header">
+          <h2><code>&lt;details&gt;</code> y <code>&lt;summary&gt;</code></h2>
+          <p class="lesson-intro">Widget colapsable nativo sin JS. Perfecto para FAQs, opciones avanzadas y contenido expandible.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <details style="border: 2px solid #e2e8f0; padding: 16px; border-radius: 8px; margin-bottom: 16px;">
+            <summary style="cursor: pointer; font-weight: 600; color: #6366f1;">🔽 Opciones Avanzadas</summary>
+            <div style="margin-top: 16px;">
+              <div class="form-group">
+                <label>Configuración personalizada</label>
+                <input type="text" placeholder="Parámetros...">
+              </div>
+            </div>
+          </details>
+          <details style="border: 2px solid #e2e8f0; padding: 16px; border-radius: 8px;">
+            <summary style="cursor: pointer; font-weight: 600; color: #6366f1;">❓ ¿Cómo funciona?</summary>
+            <p style="margin-top: 12px; color: #64748b;">Details/summary crea un acordeón nativo sin JavaScript. El contenido se oculta hasta que el usuario hace clic.</p>
+          </details>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa para secciones opcionales, opciones avanzadas, FAQs. No requiere JS. Usa <code>open</code> para expandir por defecto.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Details con summary "Info Adicional" y open</h3>
+          <div class="code-editor"><textarea id="challenge-29-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-29-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(29)">✓ Validar</button>
+          <div id="challenge-29-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(28)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(29)">Siguiente →</button>
+        </div>
+      </section>
+
+      <!-- LECCIÓN 30: DIALOG -->
+      <section id="lesson-30" class="lesson hidden" data-lesson="30">
+        <div class="lesson-header">
+          <h2><code>&lt;dialog&gt;</code></h2>
+          <p class="lesson-intro">Modal nativo HTML5. Maneja foco, backdrop y accesibilidad automáticamente. Requiere JS para abrir/cerrar.</p>
+        </div>
+        <div class="demo-section">
+          <h3>🎮 Demo Interactiva</h3>
+          <button type="button" class="btn btn-primary" onclick="document.getElementById('demo-dialog').showModal()">
+            Abrir Modal
+          </button>
+          <dialog id="demo-dialog" style="border: none; border-radius: 12px; padding: 32px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); max-width: 400px;">
+            <h3 style="margin-bottom: 16px; color: #6366f1;">Modal Nativo HTML5</h3>
+            <p style="margin-bottom: 20px; color: #64748b;">Este es un dialog nativo. Maneja foco y backdrop automáticamente.</p>
+            <form method="dialog">
+              <button type="submit" class="btn btn-primary">Cerrar</button>
+            </form>
+          </dialog>
+        </div>
+        <div class="best-practice">
+          <strong>💡 Best Practice</strong>
+          Usa <code>.showModal()</code> para modal con backdrop. <code>.show()</code> para no-modal. <code>method="dialog"</code> en form para cerrar.
+        </div>
+        <div class="challenge-section">
+          <h3>🎯 Desafío: Dialog básico con botón de cierre</h3>
+          <div class="code-editor"><textarea id="challenge-30-code"></textarea></div>
+          <div class="preview-section"><div id="challenge-30-preview"></div></div>
+          <button class="btn btn-primary" onclick="validateChallenge(30)">✓ Validar</button>
+          <div id="challenge-30-feedback" class="feedback"></div>
+        </div>
+        <div class="lesson-nav">
+          <button class="btn" onclick="goToLesson(29)">← Anterior</button>
+          <button class="btn btn-success" onclick="completeLesson(30)">🏆 Obtener Certificado</button>
+        </div>
+      </section>
+
+      <!-- ============================================
+           CERTIFICADO Y FORMULARIO MAESTRO
+      ============================================ -->
+      <section id="certificate" class="lesson hidden" data-lesson="certificate">
+        <div class="certificate">
+          <div class="certificate-badge">🏆</div>
+          <h2>¡Felicitaciones!</h2>
+          <p style="font-size: 1.2rem; margin-bottom: 16px;">Has completado exitosamente</p>
+          <div class="student-name">Academia HTML Forms Pro 2025</div>
+          <p style="color: var(--text-secondary); font-size: 1.1rem;">30 Elementos Esenciales de Formularios</p>
+          <div style="margin-top: 32px; display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;">
+            <div class="badge">🎯 <span id="final-score">0</span> Puntos</div>
+            <div class="badge">📚 30 Lecciones</div>
+            <div class="badge">✅ 30 Desafíos</div>
+          </div>
+        </div>
+
+        <!-- FORMULARIO MAESTRO -->
+        <div class="master-form">
+          <h3>🎓 Formulario Maestro Final</h3>
+          <p style="text-align: center; margin-bottom: 32px; color: var(--text-secondary);">
+            Demuestra todo lo aprendido completando este formulario profesional que integra 20+ elementos
+          </p>
+
+          <form id="master-final-form">
+            <input type="hidden" name="form_id" value="master-2025">
+
+            <fieldset>
+              <legend>Información Personal</legend>
+              
+              <div class="form-group">
+                <label for="master-email">Email *</label>
+                <input type="email" id="master-email" name="email" autocomplete="email" required>
+              </div>
+
+              <div class="form-group">
+                <label for="master-url">Sitio web / Portfolio</label>
+                <input type="url" id="master-url" name="website" autocomplete="url" inputmode="url">
+              </div>
+
+              <div class="form-group">
+                <label for="master-tel">Teléfono *</label>
+                <input type="tel" id="master-tel" name="phone" autocomplete="tel" required pattern="[+]?[0-9\s\-\(\)]+" inputmode="tel">
+              </div>
+
+              <div class="form-group">
+                <label for="master-date">Fecha de nacimiento *</label>
+                <input type="date" id="master-date" name="birthdate" autocomplete="bday" required min="1950-01-01" max="2010-12-31">
+              </div>
+
+              <div class="form-group">
+                <label for="master-time">Hora preferida de contacto</label>
+                <input type="time" id="master-time" name="contact-time" min="09:00" max="18:00" step="1800">
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Preferencias</legend>
+
+              <div class="form-group">
+                <label for="master-color">Color favorito</label>
+                <input type="color" id="master-color" name="color" value="#6366f1">
+              </div>
+
+              <div class="form-group">
+                <label for="master-range">Nivel de experiencia: <output id="exp-output">5</output>/10</label>
+                <input type="range" id="master-range" name="experience" min="1" max="10" value="5" oninput="document.getElementById('exp-output').value=this.value">
+              </div>
+
+              <div class="form-group">
+                <label for="master-file">CV / Portfolio (PDF)</label>
+                <input type="file" id="master-file" name="cv" accept="application/pdf">
+              </div>
+
+              <div class="form-group">
+                <label for="master-select">País *</label>
+                <select id="master-select" name="country" autocomplete="country" required>
+                  <option value="">-- Selecciona --</option>
+                  <optgroup label="Europa">
+                    <option value="ES">España</option>
+                    <option value="FR">Francia</option>
+                  </optgroup>
+                  <optgroup label="América">
+                    <option value="MX">México</option>
+                    <option value="AR">Argentina</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="master-search">Buscar tecnologías</label>
+                <input type="search" id="master-search" name="search" inputmode="search" list="tech-list" placeholder="React, Vue, Angular...">
+                <datalist id="tech-list">
+                  <option value="React">
+                  <option value="Vue">
+                  <option value="Angular">
+                  <option value="Svelte">
+                </datalist>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Disponibilidad *</legend>
+              <div class="radio-group">
+                <input type="radio" id="avail-full" name="availability" value="full-time" required>
+                <label for="avail-full">Tiempo completo</label>
+              </div>
+              <div class="radio-group">
+                <input type="radio" id="avail-part" name="availability" value="part-time" required>
+                <label for="avail-part">Medio tiempo</label>
+              </div>
+              <div class="radio-group">
+                <input type="radio" id="avail-free" name="availability" value="freelance" required checked>
+                <label for="avail-free">Freelance</label>
+              </div>
+            </fieldset>
+
+            <div class="form-group">
+              <div class="checkbox-group">
+                <input type="checkbox" id="master-newsletter" name="newsletter" value="yes" checked>
+                <label for="master-newsletter">Quiero recibir novedades del curso</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <div class="checkbox-group">
+                <input type="checkbox" id="master-terms" name="terms" value="accepted" required>
+                <label for="master-terms">Acepto términos y condiciones *</label>
+              </div>
+            </div>
+
+            <details style="border: 2px solid #e2e8f0; padding: 16px; border-radius: 8px; margin-bottom: 24px;">
+              <summary style="cursor: pointer; font-weight: 600; color: #6366f1;">⚙️ Opciones Avanzadas</summary>
+              <div style="margin-top: 16px;">
+                <label>Progreso del formulario</label>
+                <progress value="85" max="100" style="width: 100%; height: 20px; margin-top: 8px;"></progress>
+                <p style="font-size: 0.9rem; color: #64748b; margin-top: 4px;">85% completado</p>
+              </div>
+            </details>
+
+            <button type="submit" class="btn btn-success" style="width: 100%; padding: 16px; font-size: 1.2rem;">
+              ✨ Enviar Formulario Maestro
+            </button>
+          </form>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px; padding: 32px; background: var(--bg-card); border-radius: var(--radius); box-shadow: var(--shadow);">
+          <h3 style="color: var(--primary); margin-bottom: 16px;">🎉 ¡Enhorabuena!</h3>
+          <p style="color: var(--text-secondary); line-height: 1.8; max-width: 600px; margin: 0 auto;">
+            Has dominado los <strong>30 elementos de formulario más usados en 2025</strong>. Ahora estás preparado para crear interfaces web profesionales, accesibles y optimizadas según los estándares WHATWG y WCAG 2.2.
+          </p>
+          <button class="btn btn-primary" onclick="location.reload()" style="margin-top: 24px;">
+            🔄 Reiniciar Curso
+          </button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ============================================
+       JAVASCRIPT
+  ============================================ -->
+  <script>
+    // Estado del progreso
+    const state = {
+      currentLesson: 1,
+      completedLessons: new Set(),
+      score: 0,
+      badges: 0
+    };
+
+    // Soluciones simplificadas (keywords a validar)
+    const solutions = {
+      1: '<input type="email" id="user-email" name="user-email" autocomplete="email" placeholder="correo@ejemplo.com" required>',
+      2: '<input type="url" autocomplete="url" inputmode="url">',
+      3: '<input type="tel" pattern inputmode="tel">',
+      4: '<input type="search" role="searchbox" inputmode="search">',
+      5: '<input type="date" min max>',
+      6: '<input type="time" step="1800">',
+      7: '<input type="datetime-local">',
+      8: '<input type="month" autocomplete="cc-exp">',
+      9: '<input type="week">',
+      10: '<input type="color" value="#ff0000">',
+      11: '<input type="range" min="1" max="10" step="0.5"><output',
+      12: '<input type="file" accept="image/*" capture="user">',
+      13: '<input type="hidden" name="user_id" value="12345">',
+      14: '<input type="checkbox" checked',
+      15: '<input type="radio" name="size" value="M" checked',
+      16: '<select<option value=""',
+      17: '<select multiple size="5"',
+      18: '<input list<datalist',
+      19: '<input type="range"<output',
+      20: '<progress value="50" max="100"',
+      21: '<meter optimum',
+      22: '<button type="button"⭐',
+      23: '<button type="submit"',
+      24: '<button type="reset"',
+      25: '<fieldset<legend',
+      26: '<label for<input id',
+      27: '<select<optgroup label',
+      28: '<input type="image" alt',
+      29: '<details open<summary',
+      30: '<dialog'
+    };
+
+    // Inicializar
+    document.addEventListener('DOMContentLoaded', () => {
+      updateStats();
+      setupNavigation();
+      setupMasterForm();
+    });
+
+    // Navegación
+    function setupNavigation() {
+      document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const lesson = item.dataset.lesson;
+          if (!item.classList.contains('locked')) {
+            goToLesson(lesson);
+          }
+        });
+      });
+    }
+
+    function goToLesson(lessonNum) {
+      document.querySelectorAll('.lesson').forEach(l => l.classList.add('hidden'));
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      
+      const lessonEl = document.getElementById(lessonNum === 'certificate' ? 'certificate' : `lesson-${lessonNum}`);
+      const navItem = document.querySelector(`.nav-item[data-lesson="${lessonNum}"]`);
+      
+      if (lessonEl) {
+        lessonEl.classList.remove('hidden');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      if (navItem) navItem.classList.add('active');
+      
+      state.currentLesson = lessonNum;
+    }
+
+    // Completar lección
+    function completeLesson(lessonNum) {
+      state.completedLessons.add(lessonNum);
+      state.score += 100;
+      state.badges += 1;
+      
+      const navItem = document.querySelector(`.nav-item[data-lesson="${lessonNum}"]`);
+      if (navItem) navItem.classList.add('completed');
+      
+      const nextLesson = lessonNum === 30 ? 'certificate' : lessonNum + 1;
+      const nextNav = document.querySelector(`.nav-item[data-lesson="${nextLesson}"]`);
+      if (nextNav) nextNav.classList.remove('locked');
+      
+      updateStats();
+      goToLesson(nextLesson);
+      
+      if (lessonNum === 30) {
+        setTimeout(() => alert('🎉 ¡Increíble! Has completado las 30 lecciones. ¡Ve por tu certificado!'), 500);
+      }
+    }
+
+    // Actualizar estadísticas
+    function updateStats() {
+      document.getElementById('total-score').textContent = state.score;
+      document.getElementById('completed-lessons').textContent = `${state.completedLessons.size}/30`;
+      document.getElementById('total-badges').textContent = state.badges;
+      
+      const progress = (state.completedLessons.size / 30) * 100;
+      document.getElementById('global-progress').style.width = `${progress}%`;
+      
+      document.getElementById('final-score').textContent = state.score;
+    }
+
+    // Validar desafíos (simplificado)
+    function validateChallenge(challengeNum) {
+      const code = document.getElementById(`challenge-${challengeNum}-code`).value.trim().toLowerCase();
+      const preview = document.getElementById(`challenge-${challengeNum}-preview`);
+      const feedback = document.getElementById(`challenge-${challengeNum}-feedback`);
+      
+      preview.innerHTML = document.getElementById(`challenge-${challengeNum}-code`).value;
+      
+      const solution = solutions[challengeNum].toLowerCase();
+      const keywords = solution.split(/[<>\s]+/).filter(k => k.length > 2);
+      const passed = keywords.some(keyword => code.includes(keyword));
+      
+      if (passed && code.includes('<') && code.includes('>')) {
+        feedback.className = 'feedback success';
+        feedback.style.display = 'block';
+        feedback.innerHTML = '<strong>✅ ¡Correcto!</strong><p>Desafío completado. +50 puntos</p>';
+        state.score += 50;
+        updateStats();
+      } else {
+        feedback.className = 'feedback error';
+        feedback.style.display = 'block';
+        feedback.innerHTML = '<strong>❌ Aún no</strong><p>Revisa los requisitos e inténtalo de nuevo.</p>';
+      }
+    }
+
+    function showSolution(challengeNum) {
+      document.getElementById(`challenge-${challengeNum}-code`).value = solutions[challengeNum];
+      validateChallenge(challengeNum);
+    }
+
+    // Copiar código
+    function copyCode(btn) {
+      const code = btn.parentElement.textContent.replace('📋 Copiar', '').trim();
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = '✓ Copiado';
+        setTimeout(() => btn.textContent = '📋 Copiar', 2000);
+      });
+    }
+
+    // Formulario maestro
+    function setupMasterForm() {
+      document.getElementById('master-final-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData);
+        
+        console.log('%c📋 FORMULARIO MAESTRO ENVIADO', 'background: #6366f1; color: white; padding: 10px; font-size: 16px; font-weight: bold;');
+        console.table(data);
+        
+        alert('🎉 ¡Formulario maestro enviado con éxito!\n\n✓ 30 elementos dominados\n✓ ' + state.score + ' puntos totales\n\nRevisa la consola para ver los datos.');
+      });
+    }
+  </script>
+
+</body>
+</html>

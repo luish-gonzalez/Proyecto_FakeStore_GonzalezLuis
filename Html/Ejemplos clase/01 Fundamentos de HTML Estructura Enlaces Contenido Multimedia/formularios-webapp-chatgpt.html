@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Formularios HTML5 — Taller interactivo gamificado (Principiantes)</title>
+<meta name="description" content="Web app educativa auto-contenida para aprender formularios HTML5. Lecciones, demos, retos, puntuación y resumen." />
+<style>
+  /* ---------- Diseño general (inline, accesible, gamificado) ---------- */
+  :root{
+    --bg:#0f172a;
+    --card:#0b1220;
+    --muted:#9aa7bf;
+    --accent:#5eead4;
+    --accent-2:#60a5fa;
+    --accent-3:#f472b6;
+    --glass: rgba(255,255,255,0.03);
+    --success:#10b981;
+    --danger:#ef4444;
+    --surface:#071025;
+    --gold:#fbbf24;
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    color-scheme: dark;
+    font-size:16px;
+  }
+  html,body{height:100%}
+  body{
+    margin:0; padding:1rem; background:linear-gradient(180deg,#061427 0%, #071125 100%); color:#e6eef8;
+    max-width:1100px; margin-left:auto; margin-right:auto; line-height:1.45;
+  }
+
+  header{display:flex;gap:1rem;align-items:center;justify-content:space-between;padding:0.5rem 0}
+  h1{font-size:1.25rem;margin:0;color:var(--accent-2)}
+  p.lead{margin:0;color:var(--muted);font-size:0.95rem}
+  /* top bar */
+  .topbar{display:flex;gap:1rem;align-items:center}
+  .progress-wrap{background:var(--glass);padding:0.35rem;border-radius:999px;border:1px solid rgba(255,255,255,0.03)}
+  .progress{height:10px;background:linear-gradient(90deg,var(--accent-2),var(--accent));border-radius:999px;width:0%}
+  .score-badge{background:linear-gradient(90deg,var(--gold),#f97316);color:#07203b;padding:6px 10px;border-radius:999px;font-weight:700}
+
+  main{display:grid;grid-template-columns:260px 1fr;gap:1rem;margin-top:1rem}
+  /* nav */
+  nav{position:sticky;top:1rem;height:80vh;padding:0.75rem;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:12px;border:1px solid rgba(255,255,255,0.03);overflow:auto}
+  nav h2{font-size:0.95rem;margin:0 0 0.5rem 0;color:var(--accent)}
+  nav ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:6px}
+  nav a{display:block;padding:8px;border-radius:8px;color:var(--muted);text-decoration:none;font-size:0.95rem}
+  nav a.active{background:rgba(96,165,250,0.08);color:var(--accent-2);border:1px solid rgba(96,165,250,0.06)}
+  nav small{display:block;color:var(--muted);margin-top:6px;font-size:0.85rem}
+
+  /* lesson cards */
+  section.lesson{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:1rem;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+  .lesson h3{margin:0 0 0.5rem 0;color:var(--accent-2)}
+  .lesson p.desc{margin:0 0 0.75rem 0;color:var(--muted)}
+  .demo{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:0.8rem;border-radius:8px;border:1px solid rgba(255,255,255,0.02);margin-bottom:0.6rem}
+  label{display:block;font-weight:700;margin-bottom:0.25rem;color:#cfe8ff}
+  input, textarea, select, button{font:inherit;border-radius:8px;padding:0.5rem 0.6rem;background:#071a2b;color:#e6eef8;border:1px solid rgba(255,255,255,0.04);width:100%;box-sizing:border-box}
+  input:focus, textarea:focus, select:focus{outline:3px solid rgba(96,165,250,0.18); border-color:rgba(96,165,250,0.3)}
+  .small{font-size:0.85rem;color:var(--muted);margin-top:0.25rem}
+  pre.code{background:#021323;border:1px solid rgba(255,255,255,0.03);padding:0.6rem;border-radius:8px;overflow:auto;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;font-size:0.9rem}
+  .table{width:100%;border-collapse:collapse;margin-top:0.5rem}
+  .table th,.table td{border:1px solid rgba(255,255,255,0.03);padding:0.45rem;text-align:left;font-size:0.9rem;color:var(--muted)}
+  .tip{background:linear-gradient(90deg, rgba(94,234,212,0.06), rgba(96,165,250,0.04));padding:0.6rem;border-left:4px solid var(--accent);border-radius:6px;margin:0.6rem 0;color:#e6fff6}
+  /* challenge editor */
+  .challenge{display:grid;grid-template-columns:1fr 360px;gap:0.6rem;margin-top:0.6rem}
+  .editor{display:flex;flex-direction:column;gap:0.5rem}
+  textarea.editor-area{min-height:160px;background:#041826;color:#e6eef8;border:1px solid rgba(255,255,255,0.03);padding:0.6rem;border-radius:8px;resize:vertical;font-family:ui-monospace,monospace}
+  .preview{background:#021a2a;border-radius:8px;padding:0.6rem;border:1px solid rgba(255,255,255,0.03);min-height:160px;overflow:auto}
+  .btn-row{display:flex;gap:0.5rem;align-items:center}
+  button.btn{background:linear-gradient(180deg,var(--accent-2),var(--accent));color:#051023;border:none;padding:0.5rem 0.7rem;border-radius:8px;cursor:pointer;font-weight:700}
+  button.ghost{background:transparent;border:1px solid rgba(255,255,255,0.03);color:var(--muted)}
+  .feedback{margin-top:0.5rem;padding:0.5rem;border-radius:8px}
+  .feedback.ok{background:linear-gradient(90deg, rgba(16,185,129,0.06), rgba(96,165,250,0.03));border-left:4px solid var(--success);color:#dffbf1}
+  .feedback.err{background:linear-gradient(90deg, rgba(239,68,68,0.06), rgba(96,165,250,0.02));border-left:4px solid var(--danger);color:#ffecec}
+  /* badges and score */
+  .badges{display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.5rem}
+  .badge{background:linear-gradient(90deg,#ffe29f,#ff7eb3);color:#062027;padding:0.35rem 0.6rem;border-radius:999px;font-weight:800;font-size:0.85rem}
+  .panel{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:0.6rem;border-radius:8px;border:1px solid rgba(255,255,255,0.03)}
+  /* footer / summary */
+  #summary{margin-top:1rem;padding:0.8rem;border-radius:10px;border:1px dashed rgba(255,255,255,0.03);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+  .meter{height:10px;background:rgba(255,255,255,0.03);border-radius:999px;overflow:hidden}
+  .meter > i{display:block;height:100%;background:linear-gradient(90deg,var(--accent-2),var(--accent));width:0%}
+  /* responsive */
+  @media (max-width:980px){
+    main{grid-template-columns:1fr; padding-bottom:3rem}
+    nav{position:static;height:auto;order:2}
+    .challenge{grid-template-columns:1fr;gap:0.6rem}
+  }
+</style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div>
+      <h1>Formularios HTML5 — Taller interactivo</h1>
+      <p class="lead">Aprende jugando: 14 lecciones, retos prácticos, puntuación y badges. Nivel: Principiante · Estilo: Gamificado · Exploración: Libre</p>
+    </div>
+    <div class="topbar" aria-hidden="false">
+      <div class="progress-wrap" aria-hidden="true" style="width:260px;">
+        <div id="globalProgress" class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+      </div>
+      <div style="min-width:120px;text-align:right">
+        <div style="font-size:0.85rem;color:var(--muted)">Puntos</div>
+        <div class="score-badge" id="scoreBadge">0 pts</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- NAV -->
+    <nav aria-label="Lecciones">
+      <h2>Lecciones</h2>
+      <ul id="lessonNav">
+        <!-- JS generará la lista -->
+      </ul>
+      <small>Explora libremente. Completa desafíos para ganar puntos y badges.</small>
+    </nav>
+
+    <!-- MAIN CONTENT: lessons -->
+    <div id="content">
+      <!-- JS will inject lesson sections here -->
+    </div>
+  </main>
+
+  <!-- SUMMARY / MASTER FORM -->
+  <section id="summary" aria-labelledby="summaryTitle">
+    <h2 id="summaryTitle">Resumen y Formulario maestro</h2>
+    <div class="panel" style="display:flex;gap:1rem;align-items:center;flex-wrap:wrap">
+      <div style="flex:1">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-weight:800;font-size:1.1rem" id="summaryPoints">Puntos: 0</div>
+            <div class="small" id="summaryCompleted">Lecciones completadas: 0 / 14</div>
+          </div>
+          <div class="badges" id="summaryBadges" aria-live="polite"></div>
+        </div>
+        <div style="margin-top:0.6rem">
+          <div class="meter" aria-hidden="true"><i id="summaryMeter"></i></div>
+        </div>
+      </div>
+      <div style="width:320px">
+        <div style="font-weight:700;margin-bottom:0.4rem">Formulario maestro (envío simulado)</div>
+        <form id="masterForm" novalidate class="panel" aria-describedby="mfHelp" onsubmit="return false;">
+          <small id="mfHelp" class="small">Este formulario reúne 10+ elementos aprendidos. Validación nativa y simulación en consola.</small>
+          <label for="mf-name">Nombre</label>
+          <input id="mf-name" name="nombre" type="text" required autocomplete="name" />
+
+          <label for="mf-email">Correo</label>
+          <input id="mf-email" name="email" type="email" required autocomplete="email" />
+
+          <label for="mf-tel">Teléfono</label>
+          <input id="mf-tel" name="telefono" type="tel" inputmode="tel" />
+
+          <label for="mf-country">País</label>
+          <select id="mf-country" name="pais" required>
+            <option value="">Selecciona...</option>
+            <option value="co">Colombia</option>
+            <option value="mx">México</option>
+            <option value="es">España</option>
+          </select>
+
+          <label for="mf-qty">Cantidad</label>
+          <input id="mf-qty" name="cantidad" type="number" min="1" max="10" value="1" required />
+
+          <label for="mf-date">Fecha de entrega</label>
+          <input id="mf-date" name="fecha" type="date" />
+
+          <label for="mf-msg">Nota</label>
+          <textarea id="mf-msg" name="nota" rows="2"></textarea>
+
+          <label for="mf-avatar">Archivo (opcional)</label>
+          <input id="mf-avatar" name="avatar" type="file" accept="image/png,image/jpeg" />
+
+          <div style="display:flex;gap:0.5rem;margin-top:0.6rem">
+            <button id="mf-submit" class="btn" style="background:linear-gradient(90deg,var(--accent-2),var(--accent));color:#052033">Enviar (simulado)</button>
+            <button id="mf-reset" class="btn ghost">Restablecer</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer style="margin-top:1.2rem;color:var(--muted);font-size:0.9rem">
+    <div>Web app educativa — 100% autónoma • Accesibilidad WCAG-friendly • No requiere instalación</div>
+  </footer>
+
+<script>
+/* ---------- Datos de lecciones (interna, generada) ---------- */
+const LESSONS = [
+  { id:'l-text', title:'<input type="text">', short:'Campo de texto', desc:'Campo de una línea para texto libre (nombres, etc.).',
+    demo:`<label for="i-text">Nombre</label><input id="i-text" type="text" name="nombre" placeholder="Ej: Ana Pérez" required minlength="2" autocomplete="name">`,
+    code:`<label for="i-text">Nombre</label>\n<input id="i-text" type="text" name="nombre" placeholder="Ej: Ana Pérez" required minlength="2" autocomplete="name">`,
+    attrs:['name','required','minlength','placeholder','autocomplete'],
+    best:'Usa label y autocomplete="name" para mejorar la experiencia móvil.',
+    challenge:{
+      instructions:'Haz que el campo tenga minlength="3" y required (modifica el código).',
+      validator: function(code){ return /minlength\s*=\s*["\']?3["\']?/.test(code) && /required\b/.test(code); },
+      points:10
+    }
+  },
+  { id:'l-email', title:'<input type="email">', short:'Correo electrónico', desc:'Valida formato de correo en el cliente; útil en logins y registro.',
+    demo:`<label for="i-email">Correo</label><input id="i-email" type="email" name="email" placeholder="usuario@dominio.com" required autocomplete="email">`,
+    code:`<label for="i-email">Correo</label>\n<input id="i-email" type="email" name="email" placeholder="usuario@dominio.com" required autocomplete="email">`,
+    attrs:['type','required','autocomplete','placeholder','pattern'],
+    best:'Usa autocomplete="email"; valida también en servidor.',
+    challenge:{
+      instructions:'Permite varios emails con atributo multiple (ej: multiple).',
+      validator: function(code){ return /\bmultiple\b/.test(code); },
+      points:12
+    }
+  },
+  { id:'l-password', title:'<input type="password">', short:'Contraseña', desc:'Campo protegido para contraseñas; muestra políticas con aria-describedby.',
+    demo:`<label for="i-pass">Contraseña</label><input id="i-pass" type="password" name="password" minlength="8" required autocomplete="new-password" aria-describedby="pwdHelp"><small id="pwdHelp" class="small">Mínimo 8 caracteres</small>`,
+    code:`<label for="i-pass">Contraseña</label>\n<input id="i-pass" type="password" name="password" minlength="8" required autocomplete="new-password" aria-describedby="pwdHelp">\n<small id="pwdHelp">Mínimo 8 caracteres</small>`,
+    attrs:['minlength','autocomplete','required','aria-describedby','pattern'],
+    best:'Usa tokens correctos: current-password vs new-password.',
+    challenge:{
+      instructions:'Asegura minlength≥8 y patrón que requiera al menos un dígito.',
+      validator: function(code){ return /minlength\s*=\s*["\']?8["\']?/.test(code) && /(?=.*\d)/.test(code) || /pattern\s*=\s*["\'](?=.*\\d)/.test(code); },
+      points:14
+    }
+  },
+  { id:'l-tel', title:'<input type="tel">', short:'Teléfono', desc:'Número telefónico; inputmode mejora teclado en móviles.',
+    demo:`<label for="i-tel">Teléfono</label><input id="i-tel" type="tel" name="telefono" inputmode="tel" placeholder="+57 300 000 0000" autocomplete="tel">`,
+    code:`<label for="i-tel">Teléfono</label>\n<input id="i-tel" type="tel" name="telefono" inputmode="tel" placeholder="+57 300 000 0000" autocomplete="tel">`,
+    attrs:['type','inputmode','pattern','placeholder','autocomplete'],
+    best:'Placeholder con formato internacional ayuda a usuarios.',
+    challenge:{
+      instructions:'Añade pattern que acepte + y dígitos (simple).',
+      validator: function(code){ return /pattern\s*=\s*["\']?\^\+?\[0-9\\s\\-]\{7,15\}\$["\']?/.test(code) || /pattern\s*=\s*["\']?\^\+?\d/.test(code); },
+      points:10
+    }
+  },
+  { id:'l-number', title:'<input type="number">', short:'Número', desc:'Para inputs numéricos con min/max/step (cantidad, precios).',
+    demo:`<label for="i-num">Cantidad</label><input id="i-num" type="number" name="cantidad" min="1" max="100" step="1" value="1" required>`,
+    code:`<label for="i-num">Cantidad</label>\n<input id="i-num" type="number" name="cantidad" min="1" max="100" step="1" value="1" required>`,
+    attrs:['min','max','step','required','value'],
+    best:'Para dinero, maneja precisión en el backend; evita problemas de locales.',
+    challenge:{
+      instructions:'Cambia step a 0.01 (para centavos).',
+      validator: function(code){ return /step\s*=\s*["\']?0\.01["\']?/.test(code); },
+      points:10
+    }
+  },
+  { id:'l-date', title:'<input type="date"> / datetime-local', short:'Fecha y hora', desc:'Selector nativo de fecha. Útil para reservas y DOB.',
+    demo:`<label for="i-date">Fecha</label><input id="i-date" type="date" name="fecha" min="">`,
+    code:`<label for="i-date">Fecha</label>\n<input id="i-date" type="date" name="fecha" min="">`,
+    attrs:['min','max','step','required','value'],
+    best:'Usa min/max para restringir rangos (ej. DOB).',
+    challenge:{
+      instructions:'Establece min a mañana (usa formato YYYY-MM-DD en el código).',
+      validator: function(code){ return /min\s*=\s*["\']\d{4}-\d{2}-\d{2}["\']/.test(code); },
+      points:12
+    }
+  },
+  { id:'l-url', title:'<input type="url">', short:'URL', desc:'Valida esquema básico; normaliza en backend.',
+    demo:`<label for="i-url">Sitio</label><input id="i-url" type="url" name="website" placeholder="https://ejemplo.com" autocomplete="url">`,
+    code:`<label for="i-url">Sitio</label>\n<input id="i-url" type="url" name="website" placeholder="https://ejemplo.com" autocomplete="url">`,
+    attrs:['type','placeholder','pattern','autocomplete','required'],
+    best:'Muestra el esquema en placeholder y normaliza en servidor.',
+    challenge:{
+      instructions:'Añade pattern que requiera https (simple).',
+      validator: function(code){ return /pattern\s*=\s*["\']https?:\/\/.+["\']/.test(code) || /https?:\/\//.test(code); },
+      points:8
+    }
+  },
+  { id:'l-search', title:'<input type="search">', short:'Buscador', desc:'Semántica para búsqueda; su comportamiento puede usar autocompletar interno.',
+    demo:`<label for="i-search">Buscar</label><input id="i-search" type="search" name="q" placeholder="ej: zapatillas" inputmode="search" autocomplete="off">`,
+    code:`<label for="i-search">Buscar</label>\n<input id="i-search" type="search" name="q" placeholder="ej: zapatillas" inputmode="search" autocomplete="off">`,
+    attrs:['type','inputmode','autocomplete','placeholder','aria-*'],
+    best:'Si usas autocompletar custom, sigue patrones ARIA (combobox/listbox).',
+    challenge:{
+      instructions:'Asegura autocomplete="off".',
+      validator: function(code){ return /autocomplete\s*=\s*["\']?off["\']?/.test(code); },
+      points:6
+    }
+  },
+  { id:'l-select', title:'<select> + <optgroup>', short:'Lista desplegable', desc:'Elegir de lista; usa optgroup para agrupar.',
+    demo:`<label for="i-select">País</label><select id="i-select" name="pais" required><option value=\"\">Seleccione...</option><optgroup label=\"América\"><option value=\"co\">Colombia</option></optgroup></select>`,
+    code:`<label for="i-select">País</label>\n<select id="i-select" name="pais" required>\n  <option value=\"\">Seleccione...</option>\n  <optgroup label=\"América\"><option value=\"co\">Colombia</option></optgroup>\n</select>`,
+    attrs:['name','required','multiple','size','optgroup'],
+    best:'Para listas largas considera autocompletar en vez de select.',
+    challenge:{
+      instructions:'Agrega otra opción (México) dentro del optgroup América.',
+      validator: function(code){ return /\<option[^>]*\>Mexico|\<option[^>]*\>México|value=\"mx\"/.test(code); },
+      points:8
+    }
+  },
+  { id:'l-textarea', title:'<textarea>', short:'Área de texto', desc:'Multilínea para comentarios y mensajes largos.',
+    demo:`<label for="i-textarea">Mensaje</label><textarea id="i-textarea" name="mensaje" rows="4" maxlength="500" placeholder="Escribe..."></textarea>`,
+    code:`<label for="i-textarea">Mensaje</label>\n<textarea id="i-textarea" name="mensaje" rows="4" maxlength="500" placeholder="Escribe..."></textarea>`,
+    attrs:['rows','maxlength','placeholder','required','aria-*'],
+    best:'Muestra contador cuando maxlength es relevante.',
+    challenge:{
+      instructions:'Establece maxlength="200".',
+      validator: function(code){ return /maxlength\s*=\s*["']?200["']?/.test(code); },
+      points:8
+    }
+  },
+  { id:'l-checkbox', title:'<input type="checkbox">', short:'Checkbox', desc:'Casillas para opciones múltiples o consentimientos.',
+    demo:`<fieldset><legend class="small">Preferencias</legend><label><input type="checkbox" name="news"> Suscribirme</label></fieldset>`,
+    code:`<fieldset><legend>Preferencias</legend>\n<label><input type="checkbox" name="news"> Suscribirme</label>\n</fieldset>`,
+    attrs:['checked','name','required','aria-*','value'],
+    best:'Nunca preselecciones consentimientos de privacidad.',
+    challenge:{
+      instructions:'Marca la casilla por defecto (checked).',
+      validator: function(code){ return /type\s*=\s*["']?checkbox["']?[^>]*checked\b/.test(code); },
+      points:6
+    }
+  },
+  { id:'l-radio', title:'<input type="radio">', short:'Radio buttons', desc:'Selección única dentro de un grupo; usa same name.',
+    demo:`<fieldset><legend class="small">Envío</legend><label><input type="radio" name="envio" value="std" required checked> Estándar</label><label><input type="radio" name="envio" value="exp"> Exprés</label></fieldset>`,
+    code:`<fieldset><legend>Envío</legend>\n<label><input type="radio" name="envio" value="std" required checked> Estándar</label>\n<label><input type="radio" name="envio" value="exp"> Exprés</label>\n</fieldset>`,
+    attrs:['name','value','checked','required','fieldset/legend'],
+    best:'Agrupa radios con fieldset/legend para accesibilidad.',
+    challenge:{
+      instructions:'Añade una tercera opción "Premium" con value="pr".',
+      validator: function(code){ return /value\s*=\s*["']?pr["']?/.test(code) || /Premium/.test(code); },
+      points:8
+    }
+  },
+  { id:'l-file', title:'<input type="file">', short:'Subida de archivos', desc:'Selector de archivos; use accept para filtrar MIME.',
+    demo:`<label for="i-file">Avatar</label><input id="i-file" type="file" name="avatar" accept="image/png,image/jpeg">`,
+    code:`<label for="i-file">Avatar</label>\n<input id="i-file" type="file" name="avatar" accept="image/png,image/jpeg">`,
+    attrs:['accept','multiple','required','capture','aria-describedby'],
+    best:'Validar y escanear siempre en servidor; no confiar en accept.',
+    challenge:{
+      instructions:'Permite selección múltiple (multiple).',
+      validator: function(code){ return /\bmultiple\b/.test(code); },
+      points:10
+    }
+  },
+  { id:'l-range', title:'<input type="range">', short:'Slider / range', desc:'Control visual para seleccionar un valor en rango; siempre muestra valor numérico.',
+    demo:`<label for="i-range">Volumen</label>\n<div style="display:flex;gap:8px;align-items:center"><input id="i-range" type="range" name="vol" min="0" max="100" step="1" value="50"><output id="o-range">50</output></div>`,
+    code:`<label for="i-range">Volumen</label>\n<input id="i-range" type="range" name="vol" min="0" max="100" step="1" value="50">`,
+    attrs:['min','max','step','value','aria-valuenow'],
+    best:'Complementa slider con input numérico para accesibilidad.',
+    challenge:{
+      instructions:'Cambia el value a 75.',
+      validator: function(code){ return /value\s*=\s*["']?75["']?/.test(code); },
+      points:6
+    }
+  }
+]; // end LESSONS
+
+/* ---------- Estado y persistencia (localStorage) ---------- */
+const STORAGE_KEY = 'forms-workshop-v1';
+let state = {
+  points: 0,
+  completed: {},
+  badges: []
+};
+function loadState(){ try{ const raw = localStorage.getItem(STORAGE_KEY); if(raw) state = JSON.parse(raw); }catch(e){} }
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); updateUI(); }
+loadState();
+
+/* ---------- Utilidades DOM ---------- */
+const navEl = document.getElementById('lessonNav');
+const contentEl = document.getElementById('content');
+const progressEl = document.getElementById('globalProgress');
+const scoreBadge = document.getElementById('scoreBadge');
+const summaryPoints = document.getElementById('summaryPoints');
+const summaryCompleted = document.getElementById('summaryCompleted');
+const summaryBadges = document.getElementById('summaryBadges');
+const summaryMeter = document.getElementById('summaryMeter');
+const summaryMeterInner = summaryMeter;
+
+/* ---------- Render nav + lessons ---------- */
+function createNav(){
+  navEl.innerHTML = '';
+  LESSONS.forEach((lesson, idx)=>{
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#'+lesson.id;
+    a.innerHTML = `${idx+1}. ${lesson.short}`;
+    a.id = 'nav-'+lesson.id;
+    a.addEventListener('click', (e)=>{ document.querySelectorAll('nav a').forEach(x=>x.classList.remove('active')); a.classList.add('active'); });
+    if(state.completed[lesson.id]) a.classList.add('active');
+    li.appendChild(a);
+    navEl.appendChild(li);
+  });
+  // add summary link at end
+  const li = document.createElement('li');
+  const a = document.createElement('a');
+  a.href = '#summary';
+  a.textContent = 'Resumen / Formulario maestro';
+  navEl.appendChild(li).appendChild(a);
+}
+
+function renderLessons(){
+  contentEl.innerHTML = '';
+  LESSONS.forEach((lesson, idx)=>{
+    const sec = document.createElement('section');
+    sec.className = 'lesson';
+    sec.id = lesson.id;
+    sec.innerHTML = `
+      <h3 aria-hidden="true">${idx+1}. ${lesson.title}</h3>
+      <p class="desc">${lesson.desc}</p>
+
+      <div class="demo" aria-live="polite" tabindex="0">
+        <div><strong>Demo</strong></div>
+        <div style="margin-top:0.5rem">${lesson.demo}</div>
+      </div>
+
+      <div>
+        <strong>Sintaxis</strong>
+        <pre class="code" tabindex="0" aria-label="Código de ejemplo">${escapeHtml(lesson.code)}</pre>
+        <div style="display:flex;gap:0.5rem;margin-top:0.5rem">
+          <button class="btn" data-copy="${lesson.id}">Copiar código</button>
+          <button class="btn ghost" data-fill="${lesson.id}">Cargar en editor</button>
+        </div>
+      </div>
+
+      <div style="margin-top:0.6rem">
+        <strong>Atributos clave</strong>
+        <table class="table" role="table" aria-label="Atributos">
+          <tr><th>Atributo</th><th>Descripción</th></tr>
+          ${lesson.attrs.map(a=>`<tr><td><code>${a}</code></td><td>Descripción breve del atributo <em>${a}</em>.</td></tr>`).join('')}
+        </table>
+      </div>
+
+      <div class="tip"><strong>💡 Best Practice:</strong> ${lesson.best}</div>
+
+      <div style="margin-top:0.6rem">
+        <strong>Desafío</strong>
+        <p class="small">${lesson.challenge.instructions}</p>
+
+        <div class="challenge" id="challenge-${lesson.id}">
+          <div class="editor">
+            <label for="ed-${lesson.id}">Editor (modifica el código)</label>
+            <textarea id="ed-${lesson.id}" class="editor-area" aria-label="Editor de código">${lesson.code}</textarea>
+            <div class="btn-row">
+              <button class="btn" data-run="${lesson.id}">Previsualizar</button>
+              <button class="btn ghost" data-validate="${lesson.id}">Validar</button>
+              <button class="btn ghost" data-reset="${lesson.id}">Reset</button>
+              <div style="margin-left:auto" id="status-${lesson.id}"></div>
+            </div>
+            <div id="fb-${lesson.id}" class="feedback" aria-live="polite" style="display:none"></div>
+          </div>
+          <div>
+            <label>Preview</label>
+            <div id="pv-${lesson.id}" class="preview" aria-live="polite"></div>
+            <div class="small" style="margin-top:0.5rem">Puntos por completar: <strong>${lesson.challenge.points}</strong></div>
+          </div>
+        </div>
+
+        <div style="margin-top:0.6rem">
+          <button class="btn" data-complete="${lesson.id}">Marcar como completado (+${lesson.challenge.points} pts)</button>
+        </div>
+      </div>
+    `;
+    contentEl.appendChild(sec);
+  });
+  // After lessons, attach summary anchor top
+  const anchor = document.createElement('div');
+  anchor.id = 'after-lessons';
+  contentEl.appendChild(anchor);
+}
+
+/* ---------- Events: copy, fill, preview, validate, reset, complete ---------- */
+function attachLessonEvents(){
+  // copy code
+  document.querySelectorAll('button[data-copy]').forEach(btn=>{
+    btn.addEventListener('click', ()=> {
+      const id = btn.getAttribute('data-copy');
+      const area = document.getElementById('ed-'+id) || document.querySelector('#'+id+' pre.code');
+      const text = area ? (area.value || area.textContent) : '';
+      navigator.clipboard?.writeText ? navigator.clipboard.writeText(text).then(()=>{ flash(btn,'Copiado'); }) : flash(btn,'Copiar (no soportado)');
+    });
+  });
+  // fill in editor
+  document.querySelectorAll('button[data-fill]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.getAttribute('data-fill');
+      const ed = document.getElementById('ed-'+id);
+      if(ed) { ed.value = LESSONS.find(l=>l.id===id).code; flash(btn,'Cargado en editor'); ed.focus(); }
+    });
+  });
+  // run preview
+  document.querySelectorAll('button[data-run]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.getAttribute('data-run');
+      const ed = document.getElementById('ed-'+id);
+      const pv = document.getElementById('pv-'+id);
+      pv.innerHTML = sanitizePreview(ed.value);
+      flash(btn,'Preview actualizado');
+    });
+  });
+  // reset editor
+  document.querySelectorAll('button[data-reset]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.getAttribute('data-reset');
+      const ed = document.getElementById('ed-'+id);
+      ed.value = LESSONS.find(l=>l.id===id).code;
+      document.getElementById('pv-'+id).innerHTML = '';
+      document.getElementById('fb-'+id).style.display='none';
+      flash(btn,'Reset realizado');
+    });
+  });
+  // validate
+  document.querySelectorAll('button[data-validate]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.getAttribute('data-validate');
+      const ed = document.getElementById('ed-'+id);
+      const fb = document.getElementById('fb-'+id);
+      const lesson = LESSONS.find(l=>l.id===id);
+      let ok=false;
+      try{ ok = lesson.challenge.validator(ed.value); }catch(e){ ok=false; }
+      if(ok){
+        fb.className = 'feedback ok';
+        fb.textContent = '¡Correcto! Puedes marcar como completado o continuar mejorando.';
+        fb.style.display = 'block';
+        flash(btn,'Validación OK');
+      } else {
+        fb.className = 'feedback err';
+        fb.textContent = 'Aún no cumple el requisito. Revisa las instrucciones y vuelve a intentar.';
+        fb.style.display = 'block';
+        flash(btn,'Validación fallida');
+      }
+    });
+  });
+  // complete (award points if not already)
+  document.querySelectorAll('button[data-complete]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const id = btn.getAttribute('data-complete');
+      const lesson = LESSONS.find(l=>l.id===id);
+      if(state.completed[id]){
+        alert('Lección ya completada. Puedes volver a practicar.');
+        return;
+      }
+      // For beginners, allow marking complete only if validator passes OR confirm override
+      const ed = document.getElementById('ed-'+id);
+      let ok=false;
+      try{ ok = lesson.challenge.validator(ed.value); }catch(e){ ok=false; }
+      if(!ok){
+        if(!confirm('La solución automática no valida como correcta. ¿Deseas marcarla como completada igualmente?')) return;
+      }
+      state.points += lesson.challenge.points;
+      state.completed[id] = { when: Date.now(), points: lesson.challenge.points };
+      // add a simple badge when points threshold crossed
+      awardBadges();
+      saveState();
+      flash(btn,'¡Completada! Puntos asignados');
+    });
+  });
+}
+
+/* ---------- Badges logic ---------- */
+function awardBadges(){
+  // simple badges: Novato (>=30), Avanzando (>=70), Maestro (>=120)
+  const pts = state.points;
+  const have = new Set(state.badges);
+  if(pts >= 30 && !have.has('Novato')) state.badges.push('Novato');
+  if(pts >= 70 && !have.has('Avanzando')) state.badges.push('Avanzando');
+  if(pts >= 120 && !have.has('Maestro')) state.badges.push('Maestro');
+}
+
+/* ---------- Helper UI updates ---------- */
+function updateUI(){
+  // nav highlights
+  LESSONS.forEach(l=>{
+    const a = document.getElementById('nav-'+l.id);
+    if(a) a.classList.toggle('active', !!state.completed[l.id]);
+  });
+  // score and progress
+  scoreBadge.textContent = `${state.points} pts`;
+  summaryPoints.textContent = `Puntos: ${state.points}`;
+  const completedCount = Object.keys(state.completed).length;
+  summaryCompleted.textContent = `Lecciones completadas: ${completedCount} / ${LESSONS.length}`;
+  // badges
+  summaryBadges.innerHTML = '';
+  state.badges.forEach(b=>{
+    const sp = document.createElement('span'); sp.className='badge'; sp.textContent=b; summaryBadges.appendChild(sp);
+  });
+  // progress %
+  const percent = Math.round((completedCount / LESSONS.length) * 100);
+  progressEl.style.width = percent + '%';
+  progressEl.setAttribute('aria-valuenow', percent);
+  const meterVal = Math.min(100, percent);
+  document.getElementById('summaryMeter').style.width = meterVal + '%';
+  // update meter inner (for visual)
+  summaryMeter.style.width = percent + '%';
+}
+
+/* ---------- Master form behaviors ---------- */
+(function masterFormSetup(){
+  const mf = document.getElementById('masterForm');
+  const mfSubmit = document.getElementById('mf-submit');
+  const mfReset = document.getElementById('mf-reset');
+  mf.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    if(!mf.checkValidity()){
+      // mark invalids and focus first
+      const elems = Array.from(mf.elements).filter(el=>el.willValidate);
+      const invalids = elems.filter(el=>!el.checkValidity());
+      invalids.forEach(el=> el.style.borderColor = 'var(--danger)');
+      if(invalids.length){ invalids[0].focus(); alert('Corrige los campos marcados en rojo.'); return; }
+    }
+    // collect FormData
+    const fd = new FormData(mf);
+    const out = {};
+    for(const [k,v] of fd.entries()){
+      if(v instanceof File){
+        out[k] = v.name || null;
+      } else out[k]=v;
+    }
+    console.log('--- Formulario maestro (simulado) ---');
+    console.log(out);
+    alert('Formulario válido. Revisa la consola para ver el FormData simulado.');
+  });
+  mfReset.addEventListener('click', ()=>{
+    mf.reset();
+    // clear validation styles
+    Array.from(mf.elements).forEach(el=> el.style.borderColor = '');
+  });
+})();
+
+/* ---------- Utility functions ---------- */
+function escapeHtml(s){ return (s+'').replace(/[&<>"']/g, c=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' })[c]); }
+function sanitizePreview(code){
+  // For safety: allow only basic tags present in form snippets (input, label, textarea, select, option, fieldset, legend, small, output)
+  // Strip script tags
+  let safe = code.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi,'');
+  // Very basic whitelist: remove on* attributes to avoid inline JS execution
+  safe = safe.replace(/\son\w+\s*=\s*(".*?"|'.*?'|\S+)/gi,'');
+  // return sanitized string (we trust user input for demo preview - but we've removed scripts & event handlers)
+  return safe;
+}
+function flash(el,msg){
+  const orig = el.textContent;
+  el.textContent = msg;
+  setTimeout(()=> el.textContent = orig, 900);
+}
+
+/* ---------- Initialization ---------- */
+createNav();
+renderLessons();
+attachLessonEvents();
+awardBadges();
+updateUI();
+
+/* ---------- Attach dynamic handlers for preview outputs (range etc) ---------- */
+document.addEventListener('input', (e)=>{
+  if(e.target && e.target.tagName==='INPUT' && e.target.type==='range'){
+    const out = document.querySelector('output[for="'+(e.target.id||'')+'"]') || e.target.parentElement.querySelector('output');
+    if(out) out.textContent = e.target.value;
+  }
+});
+
+/* ---------- Keyboard accessibility: focus first lesson on load ---------- */
+document.addEventListener('DOMContentLoaded', ()=> {
+  const firstNav = document.querySelector('nav a');
+  if(firstNav) firstNav.classList.add('active');
+});
+
+/* ---------- Expose simple reset for debugging ---------- */
+window._workshop_reset = function(){
+  state = { points:0, completed:{}, badges:[] }; saveState(); alert('Progreso eliminado.');
+};
+
+/* ---------- Small UX: clicking nav anchors scrolls and focuses lesson heading ---------- */
+document.querySelectorAll('nav a').forEach(a=>{
+  a.addEventListener('click', (ev)=>{
+    setTimeout(()=>{ const id = a.getAttribute('href').slice(1); const el = document.getElementById(id); if(el) el.querySelector('h3')?.focus(); }, 100);
+  });
+});
+</script>
+</body>
+</html>
